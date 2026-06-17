@@ -1,0 +1,8 @@
+# X daily collection queries
+# One query per line. Blank lines and # comments are ignored.
+"AI agent" OR "autonomous agent" lang:en
+"coding agent" OR "AI coding" lang:en
+"agent economy" OR "AI marketplace" lang:en
+"AI education" OR "AI tutor" lang:en
+"personal knowledge" "AI" lang:en
+from:OpenAI OR from:AnthropicAI OR from:NousResearch OR from:huggingface lang:en
