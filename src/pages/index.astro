@@ -1,0 +1,247 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import WorkCard from '../components/WorkCard.astro';
+import { profile } from '../data/profile';
+import { works } from '../data/works';
+import { research } from '../data/research';
+import { learning } from '../data/learning';
+import { watchlist } from '../data/watchlist';
+import { withBase } from '../lib/url';
+
+const featured = works.filter((w) => w.featured);
+---
+
+<BaseLayout title="ZiyOne｜Personal Homepage">
+  <!-- Hero -->
+  <section class="hero" aria-labelledby="hero-heading">
+    <div class="container">
+      <p class="eyebrow">AI-native personal lab</p>
+      <h1 id="hero-heading">{profile.name}</h1>
+      <p class="tagline">{profile.tagline}</p>
+      <p class="intro">{profile.intro}</p>
+      <div class="cta">
+        <a class="btn primary" href={withBase('/works')}>查看作品</a>
+        <a class="btn ghost" href={`mailto:${profile.email}`}>联系我</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured works -->
+  <section class="section" aria-labelledby="works-heading">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Featured</p>
+        <h2 id="works-heading">精选作品</h2>
+        <p>产品实验、学习工具与创作内容。</p>
+      </div>
+      <div class="card-grid">
+        {featured.map((work) => <WorkCard work={work} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- Learning -->
+  <section id="learning" class="section alt" aria-labelledby="learning-heading">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Learning</p>
+        <h2 id="learning-heading">学习方向</h2>
+      </div>
+      <ul class="track-list">
+        {
+          learning.map((t) => (
+            <li>
+              <strong>{t.title}</strong>
+              <span>{t.detail}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- Research -->
+  <section id="research" class="section" aria-labelledby="research-heading">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">AI Research</p>
+        <h2 id="research-heading">研究方向</h2>
+      </div>
+      <div class="card-grid">
+        {
+          research.map((r) => (
+            <article class="mini-card">
+              <h3>{r.title}</h3>
+              <p>{r.summary}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Watchlist -->
+  <section id="watchlist" class="section alt" aria-labelledby="watch-heading">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Watchlist</p>
+        <h2 id="watch-heading">AI 关注</h2>
+      </div>
+      <div class="card-grid">
+        {
+          watchlist.map((group) => (
+            <article class="mini-card">
+              <h3>{group.label}</h3>
+              <ul class="pills">
+                {group.items.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Now -->
+  <section class="section" aria-labelledby="now-heading">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Now</p>
+        <h2 id="now-heading">最近在做</h2>
+      </div>
+      <ul class="now-list">
+        {profile.now.map((item) => <li>{item}</li>)}
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    padding-block: clamp(4rem, 3rem + 8vw, 9rem) var(--space-section);
+    background: var(--glow);
+  }
+  .hero h1 {
+    font-size: var(--text-hero);
+    margin-block: var(--space-2) var(--space-3);
+  }
+  .tagline {
+    font-family: var(--font-mono);
+    font-size: var(--text-lead);
+    color: var(--color-violet);
+    max-width: 40ch;
+  }
+  .intro {
+    margin-top: var(--space-3);
+    font-size: var(--text-lead);
+    color: var(--color-muted);
+    max-width: 52ch;
+  }
+  .cta {
+    display: flex;
+    gap: var(--space-3);
+    margin-top: var(--space-5);
+    flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-pill);
+    font-weight: 700;
+    transition:
+      transform var(--duration-fast) var(--ease-out-expo),
+      background var(--duration-fast) var(--ease-out-expo);
+  }
+  .btn:hover {
+    transform: translateY(-2px);
+    text-decoration: none;
+  }
+  .btn.primary {
+    background: var(--color-accent);
+    color: #fff;
+  }
+  .btn.ghost {
+    background: var(--color-card);
+    color: var(--color-ink);
+    border: 1px solid var(--color-line);
+  }
+  .alt {
+    background: var(--color-accent-soft);
+  }
+  .card-grid {
+    display: grid;
+    gap: var(--space-4);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  }
+  .mini-card {
+    padding: var(--space-4);
+    background: var(--color-card);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-card);
+  }
+  .mini-card h3 {
+    font-size: 1.125rem;
+    margin-bottom: var(--space-2);
+  }
+  .mini-card p {
+    color: var(--color-muted);
+  }
+  .track-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-3);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  }
+  .track-list li {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: var(--space-3) var(--space-4);
+    background: var(--color-card);
+    border-left: 3px solid var(--color-accent);
+    border-radius: 0 var(--radius) var(--radius) 0;
+  }
+  .track-list span {
+    color: var(--color-muted);
+    font-size: var(--text-sm);
+  }
+  .pills {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+  .pills li {
+    font-size: var(--text-sm);
+    padding: 0.25rem 0.75rem;
+    background: var(--color-accent-soft);
+    color: var(--color-accent);
+    border-radius: var(--radius-pill);
+  }
+  .now-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-2);
+  }
+  .now-list li {
+    position: relative;
+    padding-left: 1.5rem;
+    color: var(--color-ink);
+  }
+  .now-list li::before {
+    content: '▹';
+    position: absolute;
+    left: 0;
+    color: var(--color-accent);
+  }
+</style>

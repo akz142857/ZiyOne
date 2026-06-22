@@ -1,0 +1,38 @@
+---
+import { profile } from '../data/profile';
+---
+
+<footer class="site-footer">
+  <div class="container row">
+    <span>© {profile.name}</span>
+    <nav aria-label="Footer links" class="links">
+      {
+        profile.links.map((link) => (
+          <a href={link.href} rel="noopener">
+            {link.label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--color-line);
+    padding-block: var(--space-5);
+    color: var(--color-muted);
+    font-size: var(--text-sm);
+  }
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+  .links {
+    display: flex;
+    gap: var(--space-4);
+  }
+</style>

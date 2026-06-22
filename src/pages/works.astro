@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import WorkCard from '../components/WorkCard.astro';
+import { works } from '../data/works';
+---
+
+<BaseLayout title="作品 Works｜ZiyOne" description="ZiyOne 的作品与产品实验列表。">
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Works</p>
+        <h2>个人作品</h2>
+        <p>作品、产品实验与学习工具。绘本等静态作品独立部署。</p>
+      </div>
+      <div class="card-grid">
+        {works.map((work) => <WorkCard work={work} />)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .card-grid {
+    display: grid;
+    gap: var(--space-4);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  }
+</style>

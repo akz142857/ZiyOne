@@ -1,0 +1,55 @@
+/* Design tokens — "AI-native personal lab": editorial + technical, clean but warm.
+   Defined once here; never hardcode palette/spacing/type repeatedly. */
+:root {
+  /* Color — ink on warm surface, single decisive accent */
+  --color-ink: #0f172a;
+  --color-surface: #f8fafc;
+  --color-card: #ffffff;
+  --color-muted: #64748b;
+  --color-line: #e2e8f0;
+  --color-accent: #2563eb;
+  --color-accent-soft: #eff4ff;
+  --color-violet: #7c3aed;
+
+  /* Subtle AI glow — hero only */
+  --glow: radial-gradient(
+    60% 60% at 30% 0%,
+    color-mix(in oklch, var(--color-accent) 14%, transparent),
+    transparent 70%
+  );
+
+  /* Typography — fluid scale with strong contrast */
+  --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", "Cascadia Code",
+    monospace;
+
+  --text-sm: 0.875rem;
+  --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.0625rem);
+  --text-lead: clamp(1.125rem, 1rem + 0.6vw, 1.375rem);
+  --text-h2: clamp(1.5rem, 1.2rem + 1.4vw, 2.25rem);
+  --text-hero: clamp(2.75rem, 1.2rem + 7vw, 6rem);
+
+  /* Spacing rhythm */
+  --space-1: 0.5rem;
+  --space-2: 0.75rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2.5rem;
+  --space-section: clamp(3.5rem, 2.5rem + 5vw, 7rem);
+
+  /* Surfaces */
+  --radius: 16px;
+  --radius-pill: 999px;
+  --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.04),
+    0 12px 40px rgba(15, 23, 42, 0.06);
+  --shadow-card-hover: 0 2px 4px rgba(15, 23, 42, 0.06),
+    0 20px 56px rgba(15, 23, 42, 0.12);
+
+  /* Motion */
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --content-max: 1080px;
+}
