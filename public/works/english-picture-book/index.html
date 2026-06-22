@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Tomi's English Time Book｜Tomi 的英语启蒙绘本</title>
-  <meta name="description" content="一套从数字、时间、星期、月份开始的中英双语英语启蒙绘本方案，包含中文、英文、音标、自然拼读与例句。" />
+  <title>Tomi's English Time Book｜数字 · 星期 · 月份</title>
+  <meta name="description" content="按分类学习的中英双语英语启蒙绘本：数字、星期、月份。每个词条包含英文、自然拼读、中文与图例。" />
   <style>
     :root {
       --bg: #fff8ec;
       --paper: #fffdf8;
       --ink: #243041;
-      --muted: #697586;
+      --muted: #6b7280;
       --line: #eadbc4;
       --sun: #ffbc42;
       --coral: #ff6b6b;
@@ -18,404 +18,564 @@
       --mint: #78d6b5;
       --violet: #8e7cf6;
       --shadow: 0 24px 70px rgba(81, 55, 20, .14);
-      --radius: 28px;
+      --radius: 24px;
       font-family: ui-rounded, "SF Pro Rounded", "PingFang SC", "Microsoft YaHei", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
     body {
       margin: 0;
       color: var(--ink);
       background:
-        radial-gradient(circle at top left, rgba(255,188,66,.35), transparent 34rem),
-        radial-gradient(circle at 92% 9%, rgba(119,199,242,.35), transparent 30rem),
+        radial-gradient(circle at top left, rgba(255,188,66,.30), transparent 34rem),
+        radial-gradient(circle at 92% 9%, rgba(119,199,242,.30), transparent 30rem),
         linear-gradient(180deg, #fff8ec 0%, #fff1d9 100%);
       min-height: 100vh;
     }
     a { color: inherit; }
     .wrap { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
 
+    /* Header */
     header {
-      position: sticky;
-      top: 0;
-      z-index: 20;
+      position: sticky; top: 0; z-index: 20;
       backdrop-filter: blur(18px);
-      background: rgba(255,248,236,.78);
+      background: rgba(255,248,236,.82);
       border-bottom: 1px solid rgba(234,219,196,.75);
     }
-    .nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-      min-height: 72px;
-    }
+    .nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 68px; flex-wrap: wrap; }
     .brand { display: flex; align-items: center; gap: 12px; font-weight: 900; letter-spacing: -.03em; }
     .logo {
-      width: 44px; height: 44px; border-radius: 15px;
-      display: grid; place-items: center;
+      width: 42px; height: 42px; border-radius: 14px; display: grid; place-items: center;
       background: linear-gradient(135deg, var(--sun), var(--coral));
-      box-shadow: 0 10px 24px rgba(255,107,107,.22);
-      color: white; font-size: 24px;
+      box-shadow: 0 10px 24px rgba(255,107,107,.22); color: white; font-size: 22px;
     }
-    .navlinks { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
-    .navlinks a, .pill {
-      border: 1px solid rgba(36,48,65,.1);
-      background: rgba(255,255,255,.58);
-      border-radius: 999px;
-      padding: 10px 14px;
-      text-decoration: none;
-      font-size: 14px;
-      color: #3f4b5d;
-      transition: transform .18s ease, background .18s ease;
+    .brand small { display: block; color: var(--muted); font-weight: 700; font-size: 12px; }
+    .navlinks { display: flex; flex-wrap: wrap; gap: 8px; }
+    .navlinks a, .navlinks button {
+      border: 1px solid rgba(36,48,65,.1); background: rgba(255,255,255,.6);
+      border-radius: 999px; padding: 9px 15px; text-decoration: none; font-size: 14px;
+      font-weight: 800; color: #3f4b5d; cursor: pointer; transition: transform .18s ease, background .18s ease;
     }
-    .navlinks a:hover { transform: translateY(-1px); background: white; }
+    .navlinks a:hover, .navlinks button:hover { transform: translateY(-1px); background: white; }
 
-    .hero { padding: 70px 0 42px; }
-    .hero-grid { display: grid; grid-template-columns: 1.08fr .92fr; gap: 34px; align-items: center; }
-    .eyebrow { display: inline-flex; gap: 8px; align-items: center; color: #7a4d00; background: rgba(255,188,66,.22); border: 1px solid rgba(255,188,66,.42); padding: 9px 14px; border-radius: 999px; font-weight: 800; }
-    h1 { font-size: clamp(44px, 8vw, 92px); line-height: .95; margin: 18px 0; letter-spacing: -.08em; }
-    .lead { color: #4d5969; font-size: clamp(18px, 2.1vw, 24px); line-height: 1.75; max-width: 760px; }
-    .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
-    .btn {
-      appearance: none; border: 0; cursor: pointer; text-decoration: none;
-      border-radius: 18px; padding: 15px 20px; min-height: 50px;
-      font-weight: 900; display: inline-flex; align-items: center; gap: 8px;
-    }
-    .btn.primary { color: white; background: #243041; box-shadow: 0 14px 34px rgba(36,48,65,.22); }
-    .btn.secondary { color: #243041; background: white; border: 1px solid rgba(36,48,65,.1); }
+    /* Hero */
+    .hero { padding: 54px 0 26px; }
+    .eyebrow { display: inline-flex; gap: 8px; align-items: center; color: #7a4d00; background: rgba(255,188,66,.22); border: 1px solid rgba(255,188,66,.42); padding: 8px 14px; border-radius: 999px; font-weight: 800; font-size: 14px; }
+    h1 { font-size: clamp(38px, 7vw, 76px); line-height: .96; margin: 16px 0; letter-spacing: -.07em; }
+    .lead { color: #4d5969; font-size: clamp(17px, 2vw, 22px); line-height: 1.7; max-width: 720px; }
 
-    .cover-card {
-      background: var(--paper);
-      border: 1px solid rgba(234,219,196,.9);
-      border-radius: 42px;
-      padding: 26px;
-      box-shadow: var(--shadow);
-      transform: rotate(1deg);
-      position: relative;
-      overflow: hidden;
-    }
-    .cover-card::before {
-      content: ""; position: absolute; inset: -20% -10% auto auto; width: 260px; height: 260px; border-radius: 50%; background: rgba(119,199,242,.24);
-    }
-    .book-cover {
-      min-height: 520px;
-      border-radius: 30px;
-      background:
-        radial-gradient(circle at 72% 16%, #fff5b7 0 8%, transparent 8.5%),
-        radial-gradient(circle at 22% 24%, #ffffff 0 1.6%, transparent 1.9%),
-        radial-gradient(circle at 36% 35%, #ffffff 0 1.2%, transparent 1.5%),
-        linear-gradient(180deg, #314060 0%, #6c83c7 58%, #ffe0a8 100%);
-      padding: 32px;
-      color: white;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      position: relative;
-      overflow: hidden;
-    }
-    .book-title { font-size: 40px; line-height: 1.02; letter-spacing: -.06em; font-weight: 950; max-width: 360px; }
-    .book-sub { margin-top: 10px; color: rgba(255,255,255,.82); font-weight: 800; }
-    .tomi {
-      align-self: center;
-      width: 190px; height: 190px; border-radius: 48% 48% 44% 44%;
-      background: #fff8ec;
-      position: relative;
-      box-shadow: inset 0 -14px 0 rgba(36,48,65,.06), 0 20px 50px rgba(0,0,0,.14);
-    }
-    .tomi::before, .tomi::after { content: ""; position: absolute; top: 68px; width: 18px; height: 18px; background: #243041; border-radius: 50%; }
-    .tomi::before { left: 58px; } .tomi::after { right: 58px; }
-    .smile { position: absolute; left: 70px; top: 104px; width: 52px; height: 24px; border-bottom: 6px solid #ff6b6b; border-radius: 0 0 100px 100px; }
-    .cover-foot { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-    .mini { background: rgba(255,255,255,.2); border: 1px solid rgba(255,255,255,.24); border-radius: 16px; padding: 12px; font-weight: 900; text-align: center; }
+    /* Category section */
+    section.cat { padding: 30px 0; scroll-margin-top: 90px; }
+    .section-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; margin-bottom: 20px; flex-wrap: wrap; }
+    .section-head .left { display: flex; align-items: center; gap: 14px; }
+    .cat-badge { width: 56px; height: 56px; border-radius: 18px; display: grid; place-items: center; font-size: 30px; color: white; box-shadow: var(--shadow); }
+    h2 { font-size: clamp(26px, 4vw, 44px); line-height: 1.05; letter-spacing: -.05em; margin: 0; }
+    .section-head .sub { color: var(--muted); font-weight: 700; margin: 2px 0 0; }
+    .pattern { background: var(--ink); color: white; border-radius: 16px; padding: 12px 18px; font-weight: 800; font-size: 15px; }
+    .pattern b { color: var(--sun); }
 
-    section { padding: 48px 0; }
-    .section-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 22px; }
-    h2 { font-size: clamp(30px, 5vw, 56px); line-height: 1.05; letter-spacing: -.06em; margin: 0; }
-    .section-head p { color: var(--muted); max-width: 560px; line-height: 1.7; margin: 0; }
+    /* Accent per category */
+    .numbers .cat-badge { background: linear-gradient(150deg, #596ec5, #263858); }
+    .days .cat-badge { background: linear-gradient(150deg, #3d9f89, #78d6b5); }
+    .months .cat-badge { background: linear-gradient(150deg, #8e7cf6, #f7a5c7); }
+    .numbers .item { --accent: var(--sky); }
+    .days .item { --accent: var(--mint); }
+    .months .item { --accent: var(--violet); }
+    .colors .cat-badge { background: conic-gradient(#ef4444,#f97316,#facc15,#22c55e,#3b82f6,#8b5cf6,#ef4444); }
+    .family .cat-badge { background: linear-gradient(150deg, #ff8a5b, #ff6b6b); }
+    .animals .cat-badge { background: linear-gradient(150deg, #78d6b5, #ffbc42); }
+    .colors .item { --accent: var(--coral); }
+    .family .item { --accent: var(--sun); }
+    .animals .item { --accent: var(--mint); }
+    .food .cat-badge { background: linear-gradient(150deg, #ffbc42, #ff6b6b); }
+    .fruits .cat-badge { background: linear-gradient(150deg, #ff6b6b, #8e7cf6); }
+    .weather .cat-badge { background: linear-gradient(150deg, #77c7f2, #ffbc42); }
+    .body .cat-badge { background: linear-gradient(150deg, #f7a5c7, #8e7cf6); }
+    .food .item { --accent: var(--sun); }
+    .fruits .item { --accent: var(--coral); }
+    .weather .item { --accent: var(--sky); }
+    .body .item { --accent: var(--violet); }
 
-    .cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-    .card {
-      background: rgba(255,255,255,.72);
-      border: 1px solid rgba(234,219,196,.95);
-      border-radius: var(--radius);
-      padding: 22px;
-      box-shadow: 0 10px 30px rgba(81,55,20,.06);
-    }
-    .card .num { font-size: 13px; font-weight: 900; color: var(--muted); }
-    .card h3 { margin: 10px 0 8px; font-size: 23px; line-height: 1.15; letter-spacing: -.04em; }
-    .card p { margin: 0; color: var(--muted); line-height: 1.65; }
-    .accent-1 { border-top: 8px solid var(--sun); }
-    .accent-2 { border-top: 8px solid var(--sky); }
-    .accent-3 { border-top: 8px solid var(--mint); }
-    .accent-4 { border-top: 8px solid var(--violet); }
+    /* Color swatch as 图例 */
+    .figure .swatch { width: 64px; height: 64px; border-radius: 50%; border: 2px solid rgba(36,48,65,.18); box-shadow: inset 0 -6px 12px rgba(0,0,0,.08); }
 
-    .tabs { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 18px; }
-    .tab {
-      border: 1px solid rgba(36,48,65,.12); background: rgba(255,255,255,.72);
-      border-radius: 999px; padding: 12px 16px; cursor: pointer; font-weight: 900; color: #4d5969;
+    /* Word grid + card */
+    .grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+    .item {
+      position: relative; background: var(--paper); border: 1px solid var(--line); border-top: 6px solid var(--accent);
+      border-radius: var(--radius); padding: 18px; box-shadow: 0 10px 28px rgba(81,55,20,.06);
+      display: flex; flex-direction: column; gap: 6px; cursor: pointer;
+      transition: transform .18s ease, box-shadow .18s ease;
     }
-    .tab.active { background: #243041; color: white; }
-    .panel { display: none; }
-    .panel.active { display: block; }
+    .item:hover { transform: translateY(-3px); box-shadow: 0 18px 40px rgba(81,55,20,.12); }
+    .item:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+    .item:active { transform: translateY(-1px); }
+    .say-badge {
+      position: absolute; top: 12px; right: 12px; width: 30px; height: 30px; border-radius: 50%;
+      display: grid; place-items: center; font-size: 15px; background: var(--accent); color: white;
+      box-shadow: 0 4px 10px rgba(36,48,65,.18); transition: transform .18s ease;
+    }
+    .item:hover .say-badge { transform: scale(1.12); }
+    .item.speaking .say-badge { animation: pulse .6s ease infinite; }
+    @keyframes pulse { 50% { transform: scale(1.25); } }
+    /* 图例 illustration */
+    .figure {
+      height: 110px; border-radius: 16px; background: rgba(255,255,255,.7); border: 1px dashed var(--line);
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; margin-bottom: 6px;
+    }
+    .figure .numeral { font-size: 52px; font-weight: 950; letter-spacing: -.04em; color: var(--ink); line-height: 1; }
+    .figure .emoji { font-size: 52px; line-height: 1; }
+    .figure .dots { font-size: 14px; line-height: 1.1; max-width: 150px; text-align: center; }
+    .item .en { font-size: 26px; font-weight: 950; letter-spacing: -.03em; line-height: 1.05; }
+    .item .ipa { font-family: ui-monospace, "SF Mono", monospace; color: var(--muted); font-size: 14px; }
+    .item .phonics { font-size: 14px; color: #3f4b5d; line-height: 1.5; }
+    .item .phonics .tag { display: inline-block; background: rgba(36,48,65,.08); border-radius: 8px; padding: 1px 7px; font-size: 11px; font-weight: 900; margin-right: 6px; color: #3f4b5d; }
+    .item .zh { font-size: 18px; font-weight: 900; color: var(--ink); margin-top: 2px; }
+    .item .note { font-size: 12px; color: var(--coral); font-weight: 800; }
 
-    .spread {
-      display: grid;
-      grid-template-columns: .88fr 1.12fr;
-      gap: 18px;
-      align-items: stretch;
-    }
-    .scene {
-      min-height: 500px;
-      border-radius: 34px;
-      padding: 28px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      overflow: hidden;
-      position: relative;
-      color: white;
-      box-shadow: var(--shadow);
-    }
-    .scene.numbers { background: linear-gradient(160deg, #263858, #596ec5 60%, #ffcc75); }
-    .scene.time { background: linear-gradient(160deg, #79caef, #fff1bb); color: #243041; }
-    .scene.week { background: linear-gradient(160deg, #78d6b5, #3d9f89); }
-    .scene.months { background: linear-gradient(160deg, #8e7cf6, #f7a5c7); }
-    .scene-label { font-size: 15px; font-weight: 950; opacity: .82; }
-    .scene-word { font-size: clamp(54px, 8vw, 96px); line-height: .9; letter-spacing: -.08em; font-weight: 950; }
-    .scene-cn { font-size: 28px; font-weight: 900; margin-top: 10px; }
-    .stars { position: absolute; inset: 0; pointer-events: none; background-image: radial-gradient(#fff 1.4px, transparent 1.8px); background-size: 58px 58px; opacity: .45; }
-    .clock {
-      width: 190px; height: 190px; border-radius: 50%; background: #fffdf8; border: 10px solid #243041;
-      position: relative; align-self: center; box-shadow: 0 24px 50px rgba(36,48,65,.16);
-    }
-    .clock::before { content: ""; position: absolute; left: 86px; top: 32px; width: 10px; height: 64px; background: #243041; border-radius: 9px; transform-origin: bottom; }
-    .clock::after { content: ""; position: absolute; left: 92px; top: 88px; width: 58px; height: 9px; background: #ff6b6b; border-radius: 9px; transform-origin: left; }
-    .calendar {
-      align-self: center; width: 230px; background: #fffdf8; color: #243041; border-radius: 24px; overflow: hidden; box-shadow: 0 24px 50px rgba(36,48,65,.16);
-    }
-    .calendar .top { background: #ff6b6b; color: white; padding: 18px; font-weight: 950; text-align: center; }
-    .calendar .date { padding: 34px; font-size: 58px; font-weight: 950; text-align: center; }
+    /* Legend / how-to */
+    .legend { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 22px; box-shadow: var(--shadow); }
+    .legend h3 { margin: 0 0 8px; font-size: 18px; }
+    .legend ul { margin: 0; padding-left: 18px; color: var(--muted); line-height: 1.8; }
+    .legend strong { color: var(--ink); }
 
-    .learn {
-      background: var(--paper);
-      border: 1px solid rgba(234,219,196,.96);
-      border-radius: 34px;
-      padding: 26px;
-      box-shadow: var(--shadow);
-    }
-    .learn h3 { font-size: 34px; margin: 0 0 14px; letter-spacing: -.05em; }
-    .word-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 18px 0; }
-    .word-item { border: 1px solid var(--line); border-radius: 18px; padding: 14px; background: white; }
-    .word-item small { display: block; color: var(--muted); font-weight: 800; margin-bottom: 4px; }
-    .word-item strong { font-size: 22px; }
-    .sentence {
-      background: #243041;
-      color: white;
-      border-radius: 24px;
-      padding: 20px;
-      margin-top: 14px;
-    }
-    .sentence .en { font-size: 27px; font-weight: 950; letter-spacing: -.03em; }
-    .sentence .zh { color: rgba(255,255,255,.75); margin-top: 8px; }
+    footer { padding: 40px 0 64px; color: var(--muted); }
+    .footer-card { border: 1px solid var(--line); background: rgba(255,255,255,.62); border-radius: 22px; padding: 20px; line-height: 1.7; }
 
-    table { width: 100%; border-collapse: separate; border-spacing: 0 10px; }
-    th { text-align: left; color: var(--muted); font-size: 13px; padding: 0 12px; }
-    td { background: white; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 14px 12px; font-weight: 800; }
-    td:first-child { border-left: 1px solid var(--line); border-radius: 16px 0 0 16px; }
-    td:last-child { border-right: 1px solid var(--line); border-radius: 0 16px 16px 0; color: var(--muted); font-weight: 700; }
-
-    .template {
-      background: #243041;
-      color: white;
-      border-radius: 38px;
-      padding: 30px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 22px;
-      box-shadow: var(--shadow);
-    }
-    .template pre {
-      margin: 0; white-space: pre-wrap; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12); border-radius: 24px; padding: 20px; line-height: 1.7; color: #fff8ec;
-    }
-    .template h2 { color: white; }
-    .template p { color: rgba(255,255,255,.76); line-height: 1.8; }
-
-    footer { padding: 50px 0 72px; color: var(--muted); }
-    .footer-card { border: 1px solid var(--line); background: rgba(255,255,255,.62); border-radius: 26px; padding: 22px; }
-
-    @media (max-width: 900px) {
-      .hero-grid, .spread, .template { grid-template-columns: 1fr; }
-      .cards { grid-template-columns: repeat(2, 1fr); }
-      .nav { align-items: flex-start; flex-direction: column; padding: 14px 0; }
-      .book-cover { min-height: 440px; }
-    }
     @media (max-width: 580px) {
-      .cards, .word-grid { grid-template-columns: 1fr; }
-      .scene { min-height: 410px; }
-      .navlinks { justify-content: flex-start; }
+      .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+      .nav { align-items: flex-start; }
     }
     @media print {
-      header, .cta-row, .tabs { display: none; }
+      header, .hero .cta, .pattern { display: none; }
       body { background: white; }
-      .panel { display: block !important; break-inside: avoid; margin-bottom: 24px; }
-      .card, .learn, .scene, .template, .cover-card { box-shadow: none; }
-      section { padding: 18px 0; }
+      .item, .legend, .footer-card { box-shadow: none; break-inside: avoid; }
+      section.cat { padding: 12px 0; break-inside: avoid; }
+      .grid { grid-template-columns: repeat(4, 1fr); }
     }
   </style>
 </head>
 <body>
   <header>
     <div class="wrap nav">
-      <div class="brand"><div class="logo">T</div><div>Tomi's English Time Book<br><span style="color:var(--muted);font-weight:700;font-size:13px">中文 · English · 自然拼读</span></div></div>
-      <nav class="navlinks" aria-label="页面导航">
-        <a href="#plan">四册规划</a>
-        <a href="#samples">样章预览</a>
-        <a href="#system">拼读系统</a>
-        <a href="#template">页面模板</a>
+      <div class="brand">
+        <div class="logo">T</div>
+        <div>Tomi's English Time Book<small>中文 · English · 自然拼读 · 图例</small></div>
+      </div>
+      <nav class="navlinks" aria-label="分类导航">
+        <a href="#numbers">数字</a>
+        <a href="#days">星期</a>
+        <a href="#months">月份</a>
+        <a href="#colors">颜色</a>
+        <a href="#family">家庭</a>
+        <a href="#animals">动物</a>
+        <a href="#food">食物</a>
+        <a href="#fruits">水果</a>
+        <a href="#weather">天气</a>
+        <a href="#body">身体</a>
+        <button type="button" onclick="window.print()">打印 / PDF</button>
       </nav>
     </div>
   </header>
 
   <main>
     <section class="hero">
-      <div class="wrap hero-grid">
-        <div>
-          <span class="eyebrow">📚 英语启蒙绘本方案</span>
-          <h1>Tomi 的英语时间小绘本</h1>
-          <p class="lead">从最基础的 <strong>数字、时间、星期几、月份</strong> 开始，用儿童绘本的方式系统学习英语。每个知识点都包含：中文意思、英文表达、音标、自然拼读和例句。</p>
-          <div class="cta-row">
-            <a class="btn primary" href="#samples">开始看样章</a>
-            <button class="btn secondary" onclick="window.print()">打印 / 导出 PDF</button>
-          </div>
-          <p class="pill" style="margin-top:18px;display:inline-flex">HTML 文件版 · 可直接打开 / 可部署到 GitHub Pages</p>
-        </div>
-        <div class="cover-card" aria-label="绘本封面预览">
-          <div class="book-cover">
-            <div>
-              <div class="book-title">Tomi Counts Time</div>
-              <div class="book-sub">Numbers · Time · Week · Months</div>
-            </div>
-            <div class="tomi"><div class="smile"></div></div>
-            <div class="cover-foot">
-              <div class="mini">1 2 3</div><div class="mini">7:00</div><div class="mini">Mon</div><div class="mini">Jan</div>
-            </div>
-          </div>
-        </div>
+      <div class="wrap">
+        <span class="eyebrow">📚 按分类学习 · 第一阶段</span>
+        <h1>数字 · 星期 · 月份</h1>
+        <p class="lead">每个词条都有四样东西:<strong>英文</strong>、<strong>自然拼读</strong>(怎么读)、<strong>中文</strong>(什么意思)、<strong>图例</strong>(长什么样)。<strong>点一下卡片 🔊 就能听发音</strong>(浏览器朗读,放慢语速适合跟读)。</p>
       </div>
     </section>
 
-    <section id="plan">
+    <section class="cat numbers" id="numbers">
       <div class="wrap">
         <div class="section-head">
-          <h2>四册系统规划</h2>
-          <p>不要把所有知识挤进一本书。建议拆成 4 本小绘本，每本一个主题，重复同一套学习格式，降低认知负担。</p>
+          <div class="left">
+            <div class="cat-badge">123</div>
+            <div><h2>数字 Numbers</h2><p class="sub">One → Twenty,再到整十与一百</p></div>
+          </div>
+          <div class="pattern">句型 · <b>I see ___.</b> / How many?</div>
         </div>
-        <div class="cards">
-          <article class="card accent-1"><div class="num">Book 01</div><h3>Tomi Counts the Stars<br>数字 Numbers</h3><p>从 one 到 twenty，再扩展到 thirty、forty、one hundred。核心句型：I see… / How many?</p></article>
-          <article class="card accent-2"><div class="num">Book 02</div><h3>What Time Is It, Tomi?<br>时间 Time</h3><p>学习整点、半点、morning / afternoon / evening / night。核心句型：What time is it?</p></article>
-          <article class="card accent-3"><div class="num">Book 03</div><h3>Tomi’s Week<br>星期 Days</h3><p>学习 Monday 到 Sunday，today / tomorrow / yesterday。核心句型：Today is Monday.</p></article>
-          <article class="card accent-4"><div class="num">Book 04</div><h3>Tomi’s Year<br>月份 Months</h3><p>学习 January 到 December，四季和生日表达。核心句型：My birthday is in May.</p></article>
-        </div>
+        <div class="grid" id="grid-numbers"></div>
       </div>
     </section>
 
-    <section id="samples">
+    <section class="cat days" id="days">
       <div class="wrap">
         <div class="section-head">
-          <h2>样章预览</h2>
-          <p>点击切换主题。每页都采用「大画面 + 大单词 + 学习卡 + 例句」结构，可以直接作为后续绘本制作蓝本。</p>
+          <div class="left">
+            <div class="cat-badge">📅</div>
+            <div><h2>星期 Days of the Week</h2><p class="sub">Monday → Sunday,七天</p></div>
+          </div>
+          <div class="pattern">句型 · <b>Today is ___.</b></div>
         </div>
-        <div class="tabs" role="tablist">
-          <button class="tab active" data-tab="numbers">数字</button>
-          <button class="tab" data-tab="time">时间</button>
-          <button class="tab" data-tab="week">星期</button>
-          <button class="tab" data-tab="months">月份</button>
-        </div>
-
-        <article class="panel active" id="numbers">
-          <div class="spread">
-            <div class="scene numbers"><div class="stars"></div><div class="scene-label">Book 01 · Page Sample</div><div><div class="scene-word">One Star</div><div class="scene-cn">一颗星星</div></div><div class="mini" style="width:max-content">I see one star.</div></div>
-            <div class="learn"><h3>One / 一</h3><div class="word-grid"><div class="word-item"><small>中文</small><strong>一</strong></div><div class="word-item"><small>English</small><strong>one</strong></div><div class="word-item"><small>音标</small><strong>/wʌn/</strong></div><div class="word-item"><small>自然拼读</small><strong>o-n-e：整体记忆词</strong></div></div><div class="sentence"><div class="en">I see one star.</div><div class="zh">我看见一颗星星。</div></div><table><thead><tr><th>扩展</th><th>English</th><th>自然拼读</th></tr></thead><tbody><tr><td>二</td><td>two</td><td>two：tw + long oo</td></tr><tr><td>三</td><td>three</td><td>three：th + r + long ee</td></tr><tr><td>十</td><td>ten</td><td>ten：t + short e + n</td></tr></tbody></table></div>
-          </div>
-        </article>
-
-        <article class="panel" id="time">
-          <div class="spread">
-            <div class="scene time"><div class="scene-label">Book 02 · Page Sample</div><div class="clock" aria-hidden="true"></div><div><div class="scene-word">Seven o’clock</div><div class="scene-cn">七点</div></div></div>
-            <div class="learn"><h3>Seven o’clock / 七点</h3><div class="word-grid"><div class="word-item"><small>中文</small><strong>七点</strong></div><div class="word-item"><small>English</small><strong>seven o’clock</strong></div><div class="word-item"><small>音标</small><strong>/ˈsevən əˈklɑːk/</strong></div><div class="word-item"><small>自然拼读</small><strong>sev-en + o’clock</strong></div></div><div class="sentence"><div class="en">It is seven o’clock.</div><div class="zh">现在七点。</div></div><table><thead><tr><th>中文</th><th>English</th><th>自然拼读</th></tr></thead><tbody><tr><td>三点半</td><td>half past three</td><td>half + past + three</td></tr><tr><td>早上</td><td>morning</td><td>morn + ing</td></tr><tr><td>晚上</td><td>evening</td><td>eve + ning</td></tr></tbody></table></div>
-          </div>
-        </article>
-
-        <article class="panel" id="week">
-          <div class="spread">
-            <div class="scene week"><div class="scene-label">Book 03 · Page Sample</div><div class="calendar"><div class="top">Today</div><div class="date">Mon</div></div><div><div class="scene-word">Monday</div><div class="scene-cn">星期一</div></div></div>
-            <div class="learn"><h3>Monday / 星期一</h3><div class="word-grid"><div class="word-item"><small>中文</small><strong>星期一</strong></div><div class="word-item"><small>English</small><strong>Monday</strong></div><div class="word-item"><small>音标</small><strong>/ˈmʌndeɪ/</strong></div><div class="word-item"><small>自然拼读</small><strong>Mon + day</strong></div></div><div class="sentence"><div class="en">Today is Monday.</div><div class="zh">今天是星期一。</div></div><table><thead><tr><th>中文</th><th>English</th><th>自然拼读</th></tr></thead><tbody><tr><td>星期二</td><td>Tuesday</td><td>Tues + day</td></tr><tr><td>星期三</td><td>Wednesday</td><td>Wednes + day，d 不发音</td></tr><tr><td>周末</td><td>weekend</td><td>week + end</td></tr></tbody></table></div>
-          </div>
-        </article>
-
-        <article class="panel" id="months">
-          <div class="spread">
-            <div class="scene months"><div class="scene-label">Book 04 · Page Sample</div><div class="calendar"><div class="top">Snow Month</div><div class="date">Jan</div></div><div><div class="scene-word">January</div><div class="scene-cn">一月</div></div></div>
-            <div class="learn"><h3>January / 一月</h3><div class="word-grid"><div class="word-item"><small>中文</small><strong>一月</strong></div><div class="word-item"><small>English</small><strong>January</strong></div><div class="word-item"><small>音标</small><strong>/ˈdʒænjuˌeri/</strong></div><div class="word-item"><small>自然拼读</small><strong>Jan-u-ar-y</strong></div></div><div class="sentence"><div class="en">It is January.</div><div class="zh">现在是一月。</div></div><table><thead><tr><th>中文</th><th>English</th><th>自然拼读</th></tr></thead><tbody><tr><td>五月</td><td>May</td><td>May：ay 发 /eɪ/</td></tr><tr><td>六月</td><td>June</td><td>June：j + long u + n</td></tr><tr><td>生日</td><td>birthday</td><td>birth + day</td></tr></tbody></table></div>
-          </div>
-        </article>
+        <div class="grid" id="grid-days"></div>
       </div>
     </section>
 
-    <section id="system">
+    <section class="cat months" id="months">
       <div class="wrap">
-        <div class="section-head"><h2>三层拼读系统</h2><p>以自然拼读为主：看字母组合、音节切分、常见发音规律，并配合标准音标。拼读提示不使用中文谐音，避免形成错误依赖。</p></div>
-        <div class="cards">
-          <article class="card"><h3>1. 中文意思</h3><p>快速建立理解：一、七点、星期一、一月。</p></article>
-          <article class="card"><h3>2. English</h3><p>大字号呈现核心单词或短语：one, seven o’clock, Monday, January。</p></article>
-          <article class="card"><h3>3. 音标 + 拼读</h3><p>保留标准音标，同时拆分词块：Mon + day, Jan-u-ar-y。</p></article>
-          <article class="card"><h3>4. 例句输入</h3><p>用短句进入真实表达：I see one star. / Today is Monday.</p></article>
+        <div class="section-head">
+          <div class="left">
+            <div class="cat-badge">🗓️</div>
+            <div><h2>月份 Months</h2><p class="sub">January → December,十二个月</p></div>
+          </div>
+          <div class="pattern">句型 · <b>My birthday is in ___.</b></div>
         </div>
+        <div class="grid" id="grid-months"></div>
       </div>
     </section>
 
-    <section id="template">
-      <div class="wrap template">
-        <div>
-          <h2>固定页面模板</h2>
-          <p>后续每一页都可以按这个模板制作，适合继续扩展成完整 PDF、音频绘本或互动学习页面。</p>
-          <p><strong>建议第一步：</strong>先完整制作 Book 01《Tomi Counts the Stars》，共 16 页。</p>
+    <section class="cat colors" id="colors">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="left">
+            <div class="cat-badge">🎨</div>
+            <div><h2>颜色 Colors</h2><p class="sub">图例为真实色块,看颜色记单词</p></div>
+          </div>
+          <div class="pattern">句型 · <b>It is ___.</b> / I like ___.</div>
         </div>
-        <pre>上方：大图场景
-中间：英文大字
-One Star
+        <div class="grid" id="grid-colors"></div>
+      </div>
+    </section>
 
-学习卡：
-中文：一
-English：one
-音标：/wʌn/
-自然拼读：o-n-e，整体记忆词
+    <section class="cat family" id="family">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="left">
+            <div class="cat-badge">👪</div>
+            <div><h2>家庭 Family</h2><p class="sub">最亲近的人先认全</p></div>
+          </div>
+          <div class="pattern">句型 · <b>This is my ___.</b></div>
+        </div>
+        <div class="grid" id="grid-family"></div>
+      </div>
+    </section>
 
-底部例句：
-I see one star.
-我看见一颗星星。</pre>
+    <section class="cat animals" id="animals">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="left">
+            <div class="cat-badge">🐾</div>
+            <div><h2>动物 Animals</h2><p class="sub">孩子最爱的动物词</p></div>
+          </div>
+          <div class="pattern">句型 · <b>I see a ___.</b></div>
+        </div>
+        <div class="grid" id="grid-animals"></div>
+      </div>
+    </section>
+
+    <section class="cat food" id="food">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="left">
+            <div class="cat-badge">🍚</div>
+            <div><h2>食物 Food</h2><p class="sub">一日三餐常见词</p></div>
+          </div>
+          <div class="pattern">句型 · <b>I like ___.</b></div>
+        </div>
+        <div class="grid" id="grid-food"></div>
+      </div>
+    </section>
+
+    <section class="cat fruits" id="fruits">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="left">
+            <div class="cat-badge">🍎</div>
+            <div><h2>水果 Fruits</h2><p class="sub">甜甜的水果词</p></div>
+          </div>
+          <div class="pattern">句型 · <b>I want a ___.</b></div>
+        </div>
+        <div class="grid" id="grid-fruits"></div>
+      </div>
+    </section>
+
+    <section class="cat weather" id="weather">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="left">
+            <div class="cat-badge">🌦️</div>
+            <div><h2>天气 Weather</h2><p class="sub">今天天气怎么样</p></div>
+          </div>
+          <div class="pattern">句型 · How is the weather? <b>It is ___.</b></div>
+        </div>
+        <div class="grid" id="grid-weather"></div>
+      </div>
+    </section>
+
+    <section class="cat body" id="body">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="left">
+            <div class="cat-badge">🧒</div>
+            <div><h2>身体 Body</h2><p class="sub">边指边读边发音</p></div>
+          </div>
+          <div class="pattern">句型 · Touch your ___! / <b>This is my ___.</b></div>
+        </div>
+        <div class="grid" id="grid-body"></div>
+      </div>
+    </section>
+
+    <section class="cat" id="how">
+      <div class="wrap legend">
+        <h3>怎么用这本绘本</h3>
+        <ul>
+          <li><strong>点击发音:</strong>点卡片(或聚焦后按回车)即可听标准朗读,语速放慢,适合儿童跟读。</li>
+          <li><strong>图例先行:</strong>先看图例认事物,再读英文,降低对中文的依赖。</li>
+          <li><strong>自然拼读:</strong>按词块拆读(如 Mon + day、Sep + tem + ber),不使用中文谐音,避免错误发音习惯。</li>
+          <li><strong>音标辅助:</strong>保留标准音标,家长可对照确认发音。</li>
+          <li><strong>句型输出:</strong>每类配一个核心句型,认词后立刻套进句子说出来。</li>
+          <li><strong>加内容很简单:</strong>本页内容由文件里的数据数组生成,新增一个词只需在数组里加一行。</li>
+        </ul>
       </div>
     </section>
   </main>
 
   <footer>
     <div class="wrap footer-card">
-      <strong>HTML 绘本页面：</strong>本文件可直接在浏览器打开，也可通过 GitHub Pages 部署。<br />
-      已规划为 4 册英语启蒙绘本：数字、时间、星期、月份。下一步可继续生成完整 16 页第一册 HTML/PDF。
+      <strong>Tomi's English Time Book</strong> · 已收录:数字、星期、月份、颜色、家庭、动物、食物、水果、天气、身体,每张卡片可点击发音。<br />
+      下一步可继续扩展:交通、形状、衣服、文具、情绪等分类,沿用同一套「英文 / 自然拼读 / 中文 / 图例」结构。
     </div>
   </footer>
 
   <script>
-    const tabs = document.querySelectorAll('.tab');
-    const panels = document.querySelectorAll('.panel');
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        const id = tab.dataset.tab;
-        tabs.forEach(t => t.classList.toggle('active', t === tab));
-        panels.forEach(p => p.classList.toggle('active', p.id === id));
+    // 数据即内容：要加词，直接在对应数组里加一行即可。
+    // ph = 自然拼读（按词块拆分，silent 字母会注明）
+    const CN_NUM = { 1:'一',2:'二',3:'三',4:'四',5:'五',6:'六',7:'七',8:'八',9:'九',10:'十',
+      11:'十一',12:'十二',13:'十三',14:'十四',15:'十五',16:'十六',17:'十七',18:'十八',19:'十九',20:'二十',
+      30:'三十',40:'四十',50:'五十',60:'六十',70:'七十',80:'八十',90:'九十',100:'一百' };
+
+    const numbers = [
+      { n:1,  en:'one',    ipa:'/wʌn/',   ph:'整体记忆 sight word' },
+      { n:2,  en:'two',    ipa:'/tuː/',   ph:'tw + oo（w 不发音）' },
+      { n:3,  en:'three',  ipa:'/θriː/',  ph:'th + r + ee' },
+      { n:4,  en:'four',   ipa:'/fɔːr/',  ph:'f + our' },
+      { n:5,  en:'five',   ipa:'/faɪv/',  ph:'f + i‑e + ve（i 长音）' },
+      { n:6,  en:'six',    ipa:'/sɪks/',  ph:'s + i + x' },
+      { n:7,  en:'seven',  ipa:'/ˈsevən/',ph:'sev + en' },
+      { n:8,  en:'eight',  ipa:'/eɪt/',   ph:'eigh + t（eigh 读 /eɪ/）' },
+      { n:9,  en:'nine',   ipa:'/naɪn/',  ph:'n + i‑e + ne（i 长音）' },
+      { n:10, en:'ten',    ipa:'/ten/',   ph:'t + e + n' },
+      { n:11, en:'eleven', ipa:'/ɪˈlevn/',ph:'e + lev + en' },
+      { n:12, en:'twelve', ipa:'/twelv/', ph:'tw + el + ve' },
+      { n:13, en:'thirteen',  ipa:'/ˌθɜːˈtiːn/', ph:'thir + teen' },
+      { n:14, en:'fourteen',  ipa:'/ˌfɔːˈtiːn/', ph:'four + teen' },
+      { n:15, en:'fifteen',   ipa:'/ˌfɪfˈtiːn/', ph:'fif + teen' },
+      { n:16, en:'sixteen',   ipa:'/ˌsɪksˈtiːn/',ph:'six + teen' },
+      { n:17, en:'seventeen', ipa:'/ˌsevnˈtiːn/',ph:'seven + teen' },
+      { n:18, en:'eighteen',  ipa:'/ˌeɪˈtiːn/',  ph:'eigh + teen' },
+      { n:19, en:'nineteen',  ipa:'/ˌnaɪnˈtiːn/',ph:'nine + teen' },
+      { n:20, en:'twenty',    ipa:'/ˈtwenti/',   ph:'twen + ty' },
+      { n:30, en:'thirty',    ipa:'/ˈθɜːti/',    ph:'thir + ty' },
+      { n:40, en:'forty',     ipa:'/ˈfɔːti/',    ph:'for + ty（注意没有 u）' },
+      { n:50, en:'fifty',     ipa:'/ˈfɪfti/',    ph:'fif + ty' },
+      { n:60, en:'sixty',     ipa:'/ˈsɪksti/',   ph:'six + ty' },
+      { n:70, en:'seventy',   ipa:'/ˈsevnti/',   ph:'seven + ty' },
+      { n:80, en:'eighty',    ipa:'/ˈeɪti/',     ph:'eigh + ty' },
+      { n:90, en:'ninety',    ipa:'/ˈnaɪnti/',   ph:'nine + ty' },
+      { n:100,en:'one hundred',ipa:'/wʌn ˈhʌndrəd/', ph:'one + hun + dred' },
+    ];
+
+    const days = [
+      { en:'Monday',    ipa:'/ˈmʌndeɪ/',  ph:'Mon + day',  zh:'星期一', icon:'🌙', note:'Mon ≈ moon 月亮' },
+      { en:'Tuesday',   ipa:'/ˈtjuːzdeɪ/',ph:'Tues + day', zh:'星期二', icon:'🎨' },
+      { en:'Wednesday', ipa:'/ˈwenzdeɪ/', ph:'Wednes + day（第一个 d 不发音）', zh:'星期三', icon:'🐫' },
+      { en:'Thursday',  ipa:'/ˈθɜːzdeɪ/', ph:'Thurs + day',zh:'星期四', icon:'⚡' },
+      { en:'Friday',    ipa:'/ˈfraɪdeɪ/', ph:'Fri + day',  zh:'星期五', icon:'🐟' },
+      { en:'Saturday',  ipa:'/ˈsætədeɪ/', ph:'Sat + ur + day', zh:'星期六', icon:'🪐', note:'Saturday ≈ Saturn 土星' },
+      { en:'Sunday',    ipa:'/ˈsʌndeɪ/',  ph:'Sun + day',  zh:'星期日', icon:'☀️', note:'Sun ≈ sun 太阳' },
+    ];
+
+    const months = [
+      { en:'January',   ipa:'/ˈdʒænjuəri/', ph:'Jan + u + a + ry', zh:'一月',  icon:'❄️' },
+      { en:'February',  ipa:'/ˈfebruəri/',  ph:'Feb + ru + a + ry',zh:'二月',  icon:'💗' },
+      { en:'March',     ipa:'/mɑːtʃ/',      ph:'m + ar + ch',      zh:'三月',  icon:'🌱' },
+      { en:'April',     ipa:'/ˈeɪprəl/',    ph:'A + pril',         zh:'四月',  icon:'🌧️' },
+      { en:'May',       ipa:'/meɪ/',        ph:'m + ay',           zh:'五月',  icon:'🌷' },
+      { en:'June',      ipa:'/dʒuːn/',      ph:'J + une（u 长音）', zh:'六月',  icon:'☀️' },
+      { en:'July',      ipa:'/dʒuˈlaɪ/',    ph:'Ju + ly',          zh:'七月',  icon:'🎆' },
+      { en:'August',    ipa:'/ˈɔːɡəst/',    ph:'Au + gust',        zh:'八月',  icon:'🏖️' },
+      { en:'September',  ipa:'/sepˈtembə/',  ph:'Sep + tem + ber',  zh:'九月',  icon:'🍂' },
+      { en:'October',   ipa:'/ɒkˈtəʊbə/',   ph:'Oc + to + ber',    zh:'十月',  icon:'🎃' },
+      { en:'November',  ipa:'/nəʊˈvembə/',  ph:'No + vem + ber',   zh:'十一月',icon:'🦃' },
+      { en:'December',  ipa:'/dɪˈsembə/',   ph:'De + cem + ber',   zh:'十二月',icon:'🎄' },
+    ];
+
+    // 颜色：图例用真实色块（hex）
+    const colors = [
+      { en:'red',    hex:'#ef4444', ipa:'/red/',     ph:'r + e + d',          zh:'红色' },
+      { en:'orange', hex:'#f97316', ipa:'/ˈɒrɪndʒ/', ph:'or + ange',          zh:'橙色' },
+      { en:'yellow', hex:'#facc15', ipa:'/ˈjeləʊ/',  ph:'yel + low',          zh:'黄色' },
+      { en:'green',  hex:'#22c55e', ipa:'/ɡriːn/',   ph:'g + r + ee + n',     zh:'绿色' },
+      { en:'blue',   hex:'#3b82f6', ipa:'/bluː/',    ph:'bl + ue',            zh:'蓝色' },
+      { en:'purple', hex:'#8b5cf6', ipa:'/ˈpɜːpl/',  ph:'pur + ple',          zh:'紫色' },
+      { en:'pink',   hex:'#ec4899', ipa:'/pɪŋk/',    ph:'p + i + nk',         zh:'粉色' },
+      { en:'brown',  hex:'#92400e', ipa:'/braʊn/',   ph:'br + own',           zh:'棕色' },
+      { en:'black',  hex:'#1f2937', ipa:'/blæk/',    ph:'bl + a + ck',        zh:'黑色' },
+      { en:'white',  hex:'#ffffff', ipa:'/waɪt/',    ph:'wh + ite（i 长音）', zh:'白色' },
+    ];
+
+    const family = [
+      { en:'father',  ipa:'/ˈfɑːðə/',   ph:'fa + ther',  zh:'爸爸', icon:'👨' },
+      { en:'mother',  ipa:'/ˈmʌðə/',    ph:'mo + ther',  zh:'妈妈', icon:'👩' },
+      { en:'brother', ipa:'/ˈbrʌðə/',   ph:'bro + ther', zh:'哥哥 / 弟弟', icon:'👦' },
+      { en:'sister',  ipa:'/ˈsɪstə/',   ph:'sis + ter',  zh:'姐姐 / 妹妹', icon:'👧' },
+      { en:'grandpa', ipa:'/ˈɡrænpɑː/', ph:'grand + pa', zh:'爷爷 / 外公', icon:'👴' },
+      { en:'grandma', ipa:'/ˈɡrænmɑː/', ph:'grand + ma', zh:'奶奶 / 外婆', icon:'👵' },
+      { en:'baby',    ipa:'/ˈbeɪbi/',   ph:'ba + by',    zh:'宝宝', icon:'👶' },
+      { en:'family',  ipa:'/ˈfæməli/',  ph:'fa + mi + ly', zh:'家庭', icon:'👪' },
+    ];
+
+    const animals = [
+      { en:'cat',      ipa:'/kæt/',     ph:'c + a + t',      zh:'猫',   icon:'🐱' },
+      { en:'dog',      ipa:'/dɒɡ/',     ph:'d + o + g',      zh:'狗',   icon:'🐶' },
+      { en:'bird',     ipa:'/bɜːd/',    ph:'b + ir + d',     zh:'鸟',   icon:'🐦' },
+      { en:'fish',     ipa:'/fɪʃ/',     ph:'f + i + sh',     zh:'鱼',   icon:'🐟' },
+      { en:'rabbit',   ipa:'/ˈræbɪt/',  ph:'rab + bit',      zh:'兔子', icon:'🐰' },
+      { en:'bear',     ipa:'/beə/',     ph:'b + ear（/eə/）', zh:'熊',  icon:'🐻' },
+      { en:'tiger',    ipa:'/ˈtaɪɡə/',  ph:'ti + ger',       zh:'老虎', icon:'🐯' },
+      { en:'lion',     ipa:'/ˈlaɪən/',  ph:'li + on',        zh:'狮子', icon:'🦁' },
+      { en:'elephant', ipa:'/ˈelɪfənt/',ph:'el + e + phant（ph 读 /f/）', zh:'大象', icon:'🐘' },
+      { en:'monkey',   ipa:'/ˈmʌŋki/',  ph:'mon + key',      zh:'猴子', icon:'🐵' },
+      { en:'duck',     ipa:'/dʌk/',     ph:'d + u + ck',     zh:'鸭子', icon:'🦆' },
+      { en:'pig',      ipa:'/pɪɡ/',     ph:'p + i + g',      zh:'猪',   icon:'🐷' },
+    ];
+
+    const food = [
+      { en:'rice',    ipa:'/raɪs/',   ph:'r + ice（i 长音）',   zh:'米饭', icon:'🍚' },
+      { en:'bread',   ipa:'/bred/',   ph:'br + ea + d（ea 读 /e/）', zh:'面包', icon:'🍞' },
+      { en:'noodles', ipa:'/ˈnuːdlz/',ph:'noo + dles',         zh:'面条', icon:'🍜' },
+      { en:'egg',     ipa:'/eɡ/',     ph:'e + gg',             zh:'鸡蛋', icon:'🥚' },
+      { en:'milk',    ipa:'/mɪlk/',   ph:'m + i + lk',         zh:'牛奶', icon:'🥛' },
+      { en:'water',   ipa:'/ˈwɔːtə/', ph:'wa + ter',           zh:'水',   icon:'💧' },
+      { en:'meat',    ipa:'/miːt/',   ph:'m + ea + t（ea 长音 /iː/）', zh:'肉', icon:'🍖' },
+      { en:'soup',    ipa:'/suːp/',   ph:'s + ou + p（ou 读 /uː/）', zh:'汤', icon:'🍲' },
+      { en:'cake',    ipa:'/keɪk/',   ph:'c + ake（a 长音）',   zh:'蛋糕', icon:'🍰' },
+      { en:'candy',   ipa:'/ˈkændi/', ph:'can + dy',           zh:'糖果', icon:'🍬' },
+    ];
+
+    const fruits = [
+      { en:'apple',      ipa:'/ˈæpl/',       ph:'ap + ple',         zh:'苹果', icon:'🍎' },
+      { en:'banana',     ipa:'/bəˈnɑːnə/',   ph:'ba + na + na',     zh:'香蕉', icon:'🍌' },
+      { en:'grape',      ipa:'/ɡreɪp/',      ph:'gr + ape（a 长音）', zh:'葡萄', icon:'🍇' },
+      { en:'pear',       ipa:'/peə/',        ph:'p + ear（/eə/）',   zh:'梨',   icon:'🍐' },
+      { en:'peach',      ipa:'/piːtʃ/',      ph:'p + ea + ch（ea /iː/）', zh:'桃子', icon:'🍑' },
+      { en:'watermelon', ipa:'/ˈwɔːtəmelən/',ph:'water + mel + on',  zh:'西瓜', icon:'🍉' },
+      { en:'strawberry', ipa:'/ˈstrɔːbəri/', ph:'straw + ber + ry',  zh:'草莓', icon:'🍓' },
+      { en:'mango',      ipa:'/ˈmæŋɡəʊ/',    ph:'man + go',         zh:'芒果', icon:'🥭' },
+      { en:'lemon',      ipa:'/ˈlemən/',     ph:'le + mon',         zh:'柠檬', icon:'🍋' },
+      { en:'cherry',     ipa:'/ˈtʃeri/',     ph:'cher + ry',        zh:'樱桃', icon:'🍒' },
+    ];
+
+    const weather = [
+      { en:'sunny',   ipa:'/ˈsʌni/',   ph:'sun + ny',   zh:'晴天', icon:'☀️' },
+      { en:'rainy',   ipa:'/ˈreɪni/',  ph:'rain + y',   zh:'雨天', icon:'🌧️' },
+      { en:'cloudy',  ipa:'/ˈklaʊdi/', ph:'cloud + y',  zh:'多云', icon:'☁️' },
+      { en:'windy',   ipa:'/ˈwɪndi/',  ph:'wind + y',   zh:'有风', icon:'🌬️' },
+      { en:'snowy',   ipa:'/ˈsnəʊi/',  ph:'snow + y',   zh:'下雪', icon:'❄️' },
+      { en:'hot',     ipa:'/hɒt/',     ph:'h + o + t',  zh:'热',   icon:'🥵' },
+      { en:'cold',    ipa:'/kəʊld/',   ph:'c + o + ld', zh:'冷',   icon:'🥶' },
+      { en:'rainbow', ipa:'/ˈreɪnbəʊ/',ph:'rain + bow', zh:'彩虹', icon:'🌈' },
+    ];
+
+    const body = [
+      { en:'head',  ipa:'/hed/',  ph:'h + ea + d（ea 读 /e/）', zh:'头',   icon:'😀' },
+      { en:'hair',  ipa:'/heə/',  ph:'h + air（/eə/）',         zh:'头发', icon:'💇' },
+      { en:'eye',   ipa:'/aɪ/',   ph:'整体记忆 sight word',     zh:'眼睛', icon:'👁️' },
+      { en:'ear',   ipa:'/ɪə/',   ph:'ear（/ɪə/）',             zh:'耳朵', icon:'👂' },
+      { en:'nose',  ipa:'/nəʊz/', ph:'n + ose（o 长音）',       zh:'鼻子', icon:'👃' },
+      { en:'mouth', ipa:'/maʊθ/', ph:'m + ou + th',            zh:'嘴巴', icon:'👄' },
+      { en:'hand',  ipa:'/hænd/', ph:'h + a + nd',             zh:'手',   icon:'✋' },
+      { en:'foot',  ipa:'/fʊt/',  ph:'f + oo + t（oo 读 /ʊ/）', zh:'脚',   icon:'🦶' },
+    ];
+
+    function el(html) {
+      const t = document.createElement('template');
+      t.innerHTML = html.trim();
+      return t.content.firstElementChild;
+    }
+
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"]/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]));
+    }
+
+    function card(figureHtml, en, ipa, ph, zh, note) {
+      return el(`
+        <article class="item" role="button" tabindex="0"
+                 data-say="${escapeHtml(en)}" aria-label="点击朗读 ${escapeHtml(en)}，${escapeHtml(zh)}">
+          <span class="say-badge" aria-hidden="true">🔊</span>
+          <div class="figure">${figureHtml}</div>
+          <div class="en">${escapeHtml(en)}</div>
+          <div class="ipa">${escapeHtml(ipa)}</div>
+          <div class="phonics"><span class="tag">自然拼读</span>${escapeHtml(ph)}</div>
+          <div class="zh">${escapeHtml(zh)}</div>
+          ${note ? `<div class="note">💡 ${escapeHtml(note)}</div>` : ''}
+        </article>`);
+    }
+
+    function renderNumbers() {
+      const grid = document.getElementById('grid-numbers');
+      numbers.forEach(item => {
+        const dots = item.n <= 10 ? `<div class="dots">${'⭐'.repeat(item.n)}</div>` : '';
+        const figure = `<span class="numeral">${item.n}</span>${dots}`;
+        grid.appendChild(card(figure, item.en, item.ipa, item.ph, CN_NUM[item.n] || '', null));
       });
+    }
+
+    function renderIconList(list, gridId) {
+      const grid = document.getElementById(gridId);
+      list.forEach(item => {
+        const figure = `<span class="emoji" role="img" aria-label="${escapeHtml(item.zh)}">${item.icon}</span>`;
+        grid.appendChild(card(figure, item.en, item.ipa, item.ph, item.zh, item.note));
+      });
+    }
+
+    function renderColors() {
+      const grid = document.getElementById('grid-colors');
+      colors.forEach(item => {
+        const figure = `<span class="swatch" style="background:${escapeHtml(item.hex)}" role="img" aria-label="${escapeHtml(item.zh)}"></span>`;
+        grid.appendChild(card(figure, item.en, item.ipa, item.ph, item.zh, null));
+      });
+    }
+
+    renderNumbers();
+    renderIconList(days, 'grid-days');
+    renderIconList(months, 'grid-months');
+    renderColors();
+    renderIconList(family, 'grid-family');
+    renderIconList(animals, 'grid-animals');
+    renderIconList(food, 'grid-food');
+    renderIconList(fruits, 'grid-fruits');
+    renderIconList(weather, 'grid-weather');
+    renderIconList(body, 'grid-body');
+
+    // 点击发音：浏览器内置 Web Speech API，零依赖
+    const synth = window.speechSynthesis;
+    function speak(text, item) {
+      if (!synth) return;
+      synth.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = 'en-US';
+      u.rate = 0.85; // 放慢，适合儿童跟读
+      if (item) {
+        item.classList.add('speaking');
+        u.onend = u.onerror = () => item.classList.remove('speaking');
+      }
+      synth.speak(u);
+    }
+    function sayFrom(target) {
+      const item = target.closest && target.closest('.item[data-say]');
+      if (item) speak(item.dataset.say, item);
+      return !!item;
+    }
+    document.addEventListener('click', (e) => sayFrom(e.target));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        if (sayFrom(e.target)) e.preventDefault();
+      }
     });
   </script>
 </body>
