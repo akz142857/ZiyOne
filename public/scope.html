@@ -207,6 +207,9 @@
   .example .ex-row b { color:var(--accent); }
 
   /* ---------- pitfalls ---------- */
+  .warn-inline { margin-top: .7rem; padding: .7rem .85rem; font-size: .86rem; color: var(--ink-soft);
+    background: oklch(58% 0.18 25 / .08); border: 1px solid oklch(58% 0.18 25 / .35); border-left: 3px solid var(--g-dachong); border-radius: 8px; }
+  .warn-inline b { color: var(--g-dachong); }
   .pitfalls { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
   .pit { display: flex; gap: .9rem; background: var(--surface); border: 1px solid var(--line); border-left: 3px solid var(--amber); border-radius: 10px; padding: 1.1rem 1.2rem; box-shadow: var(--shadow); }
   .pit .pi { font-family: "Songti SC", serif; font-weight: 700; color: var(--amber); font-size: 1.3rem; line-height: 1; }
@@ -318,6 +321,7 @@
       <div class="idx">叁</div>
       <h3>专业：组合主线更稳</h3>
       <p><code>无人机应用 + 机电一体化 + 工业机器人 + 新能源汽车 + 物联网</code>，比单押「机器人」或「无人机」更稳。数学 28 分 → 避开纯软件 / 大数据 / AI 算法。</p>
+      <p class="warn-inline">⚠️ 历史类红线：<b>工业机器人 / 电气自动化 / 智能制造等很可能只招物理类</b>。专业名好看 ≠ 招历史。把它放进主线前，必须先确认 2026 安徽招生计划该专业招历史类——做 45 个志愿时<b>逐个核</b>，不是逐校核。</p>
     </div>
   </div>
 </section>
@@ -814,8 +818,8 @@ document.getElementById('routes').innerHTML = ROUTES.map(r=>`
 
 // ===== 避坑 =====
 const PIT = [
+  ["选","<b>历史类红线·逐个核招生计划</b>：工业机器人/电气自动化/智能制造等很可能<b>只招物理</b>，专业名好看≠招历史。45 个志愿必须逐个对照 2026 安徽计划确认招历史类，不是逐校、是逐专业。"],
   ["位","<b>按位次不按分数</b>：2025 分数接近 394 的学校，位次可能高出上万名。"],
-  ["选","<b>历史类报工科必查选科</b>：很多机电/电气/机器人专业只招物理类。"],
   ["民","<b>民办谨慎</b>：核学费、住宿、实训、校企合作真实性与专升本官方数据。"],
   ["体","<b>航空/轨道/航海看身体条件</b>：身高、视力、色觉、是否倒班出差户外。"],
   ["骗","<b>警惕营销与诈骗</b>：包就业/包录取/内部指标一律不信，只认官网。"],
