@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this repo is
 
-ZiyOne is a personal homepage repo (GitHub: `akz142857/ZiyOne`, deployed via GitHub Pages at `https://akz142857.github.io/ZiyOne/`). It is **two unrelated things living side by side**:
+ZiyOne is a personal homepage repo (GitHub: `akz142857/ZiyOne`). It is served primarily at `https://ziy.one` from the `moko-bored-snake` Kubernetes cluster (namespace `ziy`, TLS auto-renewed by cert-manager — see `infra/k8s/README.md`); the same site also still builds for GitHub Pages at `https://akz142857.github.io/ZiyOne/`. It is **two unrelated things living side by side**:
 
 1. **An Astro site** — the personal homepage, built with **Astro + Bun**. Content is data-driven (TS modules under `src/data/`), pages under `src/pages/`. Standalone static works (e.g. the picture book) live in `public/works/` and are served verbatim.
 2. **An X/Twitter archive pipeline** — Python scripts under `scripts/` that collect public tweets into `data/x/` for a personal AI watchlist and weekly trend analysis. Independent of the site; shares no code.
@@ -13,7 +13,11 @@ ZiyOne is a personal homepage repo (GitHub: `akz142857/ZiyOne`, deployed via Git
 
 ### Critical: base path
 
-The site deploys under `/ZiyOne` (GitHub Pages project page). `base: '/ZiyOne'` is set in `astro.config.mjs` and **must stay in sync with the repo name** or production assets 404. Every internal link/asset must be prefixed — use `withBase()` from `src/lib/url.ts` (it leaves `http`/`mailto`/`#` URLs untouched). Do not hardcode `/ZiyOne/...`.
+`base` is env-driven in `astro.config.mjs` (`ASTRO_BASE`/`ASTRO_SITE`), with two build targets:
+- **k8s / `ziy.one` (primary):** apex root, built with `ASTRO_BASE=/` (set in the `Dockerfile`).
+- **GitHub Pages (default):** `base` falls back to `/ZiyOne`, which **must stay in sync with the repo name** or Pages assets 404.
+
+Every internal link/asset must be prefixed — use `withBase()` from `src/lib/url.ts` (it reads `BASE_URL`, leaves `http`/`mailto`/`#` URLs untouched). Do not hardcode `/ZiyOne/...`.
 
 ## Commands
 
@@ -60,4 +64,6 @@ Both scripts share an inlined `metric_score` and an Asia/Shanghai timezone helpe
 
 ## Deployment
 
-`.github/workflows/deploy.yml` builds with Bun and publishes `dist/` to GitHub Pages on push to `main`. Requires GitHub Pages source set to "GitHub Actions" in repo settings (one-time, in the GitHub UI).
+Primary: `.github/workflows/deploy-k8s.yml` builds the container (`Dockerfile` → hardened nginx, apex `ASTRO_BASE=/`), pushes `ghcr.io/akz142857/ziyone-web`, and bumps the kustomize image tag in `infra/k8s/overlays/prod/`. ArgoCD app `ziyone-prod` syncs that to the cluster (namespace `ziy`); cert-manager issues/renews TLS via Cloudflare DNS-01. Bring-up runbook and TLS prerequisites: `infra/k8s/README.md`.
+
+The old GitHub Pages workflow was removed once `ziy.one` moved to k8s. The site still builds for Pages (default `base: '/ZiyOne'`) if you re-add a Pages workflow.
