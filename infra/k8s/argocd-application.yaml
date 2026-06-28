@@ -1,0 +1,33 @@
+# Registers the ziy.one site with ArgoCD. Apply once, manually:
+#   kubectl apply -f infra/k8s/argocd-application.yaml
+# Thereafter ArgoCD watches infra/k8s/overlays/prod on main and self-heals.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ziyone-prod
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/akz142857/ZiyOne.git
+    targetRevision: main
+    path: infra/k8s/overlays/prod
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: ziy
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=true
+      - ServerSideApply=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m

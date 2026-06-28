@@ -1,0 +1,14 @@
+.git
+node_modules
+dist
+.astro
+.github
+docs
+scripts
+data
+infra
+deploy/README.md
+*.log
+.DS_Store
+.env
+.env.production

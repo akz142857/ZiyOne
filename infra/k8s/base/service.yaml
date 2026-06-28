@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ziyone-web
+  labels:
+    app.kubernetes.io/name: ziyone
+    app.kubernetes.io/component: web
+spec:
+  type: ClusterIP
+  selector:
+    app: ziyone-web
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+      protocol: TCP

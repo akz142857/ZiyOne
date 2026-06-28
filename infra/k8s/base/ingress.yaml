@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ziyone
+  labels:
+    app.kubernetes.io/name: ziyone
+  annotations:
+    # DNS-01 via Cloudflare. The letsencrypt-cloudflare ClusterIssuer must list
+    # ziy.one in its solver dnsZones selector (see infra repo). To fall back to
+    # HTTP-01 instead, change this to: letsencrypt-prod
+    cert-manager.io/cluster-issuer: letsencrypt-cloudflare
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: ziy.one
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: ziyone-web
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - ziy.one
+      secretName: ziyone-tls

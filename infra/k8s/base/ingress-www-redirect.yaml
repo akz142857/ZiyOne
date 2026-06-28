@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ziyone-redirect-from-www
+  labels:
+    app.kubernetes.io/name: ziyone
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-cloudflare
+    nginx.ingress.kubernetes.io/permanent-redirect: https://ziy.one$request_uri
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: www.ziy.one
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: ziyone-web
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - www.ziy.one
+      secretName: ziyone-www-tls
