@@ -130,7 +130,9 @@
   @media(min-width:640px){.sheet{align-items:center}}
   .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
   .reveal.in{opacity:1;transform:none}
-  @media(max-width:640px){.checklist{columns:1}.mrow{grid-template-columns:1fr}}
+  @media(max-width:640px){.checklist{columns:1}.mrow{grid-template-columns:1fr}section{padding-block:clamp(2.2rem,1.8rem+2vw,3.2rem)}
+    /* 手机端关闭入场动画：避免图表下方 section 因 opacity:0 形成大片空白、需滑动才出现 */
+    .reveal{opacity:1 !important;transform:none !important;transition:none !important}}
   @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
 </style>
 </head>

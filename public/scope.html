@@ -238,6 +238,8 @@
     section { padding-block: clamp(2.5rem, 2rem + 3vw, 4rem); }
     .card, .route, .pit { padding: 1.2rem; }
     .controls .count { margin-left: 0; width: 100%; }
+    /* 手机端关闭入场动画：避免图表下方 section 因 opacity:0 形成大片空白、需滑动才出现 */
+    .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
   }
   @media (prefers-reduced-motion: reduce) {
     .reveal { opacity: 1; transform: none; transition: none; }
