@@ -5,4 +5,4 @@ resources:
   - ../../base
 images:
   - name: ghcr.io/akz142857/ziyone-web
-    newTag: latest # bumped by .github/workflows/deploy-k8s.yml per build
+    newTag: sha-3da0f2f
