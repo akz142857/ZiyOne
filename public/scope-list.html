@@ -99,11 +99,11 @@
   </header>
 
   <div class="banner">
-    <span class="bi">⏳</span>
+    <span class="bi">✅</span>
     <div>
-      <b>时间提醒：2026 安徽「专科批」招生计划目前（6/29）在掌上高考尚未发布</b>，查 2026 显示「暂无数据」。
-      正式核验要等 <b>2026 计划本 / 各校招生章程</b> 发布（一般在专科批志愿填报前后）。
-      <small>现在可先用 <b>2025 数据作参照</b>（同一专业的选科要求通常不变），但<b>最终一律以 2026 官方计划本与学校招生章程为准</b>。掌上高考的「各省招生计划」聚合数据免费可查，单校逐专业明细表部分需会员。</small>
+      <b>已核验：安徽 9 所红旗校已按 2026 安徽·历史类·专科招生计划逐校核实</b>（结果见每行「结果」列，2026-06-29）。
+      2026 数据已可在掌上高考<b>单校招生计划页</b>查到（各省「聚合」查询页可能仍显示暂无，以单校页为准）。
+      <small>核验要点：<b>4 校坐实红旗</b>（安徽机电历史整校无计划；水利水电电气、滁州机电、国防科技智能制造 只招物理）；<b>5 校实际招历史</b>（安徽工业/工贸/电子信息/安庆/冶金的机器人·电气专业首选历史）。其余外省校点链接自查。<b>最终一律以学校 2026 招生章程 / 安徽省考试院计划本为准。</b></small>
     </div>
   </div>
 
@@ -135,7 +135,7 @@
 // flag: r=红旗 y=待核 | [flag, school, region, grade, prop, redMajors, otherMajors]
 const ROWS = {
   "安徽主盘（45 个志愿的大头，重点逐校核）": [
-    ["r","安徽机电职业技术学院","安徽","大冲","公办","机器人、电气、智能控制","机电","⚠2025 历史类专科明细查询显示「暂无」，疑似该校安徽专科以物理类为主——务必重点核是否招历史"],
+    ["r","安徽机电职业技术学院","安徽","大冲","公办","机器人、电气、智能控制","机电",""],
     ["r","安徽水利水电职业技术学院","安徽","大冲","公办","电气","机电、智能建造",""],
     ["r","滁州职业技术学院","安徽","大冲","公办","机器人","机电、新能源汽车",""],
     ["r","安徽电子信息职业技术学院","安徽","冲","公办","智能机器人、工业机器人","无人机、物联网、新能源汽车",""],
@@ -231,6 +231,22 @@ const schoolLink = sch => SID[sch]
   : PLAN;
 function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
 
+// 2026 安徽·历史类·专科 招生计划逐校核验结果（掌上高考 gaokao.cn，2026-06-29）
+// v: no=红旗坐实(只招物理/无历史计划) · mixed=部分招历史 · yes=红旗专业实际招历史
+const VERIFY = {
+  "安徽机电职业技术学院":  {v:"no",   t:"历史类专科<b>整校无招生计划</b>（25/26 均「暂无」）→ 历史生报不了普通专科批"},
+  "安徽水利水电职业技术学院":{v:"no",  t:"<b>电气只招物理</b>（搜「电气」=0）；历史可读文商IT/水利/新能源汽车检测"},
+  "滁州职业技术学院":      {v:"no",   t:"<b>机电/机器人只招物理</b>（搜「机」=0）；历史只能读文商IT类"},
+  "安徽国防科技职业学院":  {v:"mixed",t:"<b>数控技术✓招历史</b>；<b>智能制造✗只招物理</b>（历史另有智能建造/智能网联/人工智能）"},
+  "安徽电子信息职业技术学院":{v:"yes", t:"工业机器人(4)、智能机器人(10) <b>均招历史</b>（首选历史）"},
+  "安徽工业职业技术学院":  {v:"yes",  t:"工业机器人(7)、电气自动化(25) <b>均招历史</b>"},
+  "安徽工贸职业技术学院":  {v:"yes",  t:"工业机器人、电气自动化 <b>均招历史</b>"},
+  "安庆职业技术学院":      {v:"yes",  t:"工业机器人技术 <b>招历史</b>（首选历史）"},
+  "安徽冶金科技职业学院":  {v:"yes",  t:"工业机器人/电气自动化/智能控制 <b>均招历史</b>（报告「智能制造」实为智能控制技术）"},
+};
+const VCOLOR = {no:"var(--red)", mixed:"var(--yellow)", yes:"var(--green)"};
+const VICON  = {no:"❌", mixed:"⚠️", yes:"✅"};
+
 let html = '';
 for(const [grp, rows] of Object.entries(ROWS)){
   const rc = rows.filter(r=>r[0]==='r').length, yc = rows.length-rc;
@@ -255,7 +271,9 @@ for(const [grp, rows] of Object.entries(ROWS)){
       <td>${ SID[sch]
         ? `<a class="lk" href="${schoolLink(sch)}" target="_blank" rel="noopener">招生计划 ↗</a>`
         : `<a class="lk" style="color:var(--ink-soft)" href="${PLAN}" target="_blank" rel="noopener">查 ↗</a><div class="meta">输校名</div>` }</td>
-      <td class="res"><span class="box"></span>待核</td>
+      <td class="res">${ VERIFY[sch]
+        ? `<span style="color:${VCOLOR[VERIFY[sch].v]};font-weight:700">${VICON[VERIFY[sch].v]} 已核(26)</span><div class="meta" style="line-height:1.45">${VERIFY[sch].t}</div>`
+        : `<span class="box"></span>待核` }</td>
     </tr>`;
   }
   html += `</tbody></table>`;
