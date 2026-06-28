@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>安徽历史类 394 分 · 高职志愿填报合并分析</title>
+<style>
+  :root {
+    --ink:        oklch(24% 0.03 250);
+    --ink-soft:   oklch(42% 0.02 250);
+    --ink-faint:  oklch(58% 0.015 250);
+    --paper:      oklch(98.5% 0.008 95);
+    --surface:    oklch(100% 0 0);
+    --surface-2:  oklch(96.5% 0.012 95);
+    --line:       oklch(89% 0.012 250);
+    --accent:     oklch(52% 0.13 245);   /* 墨蓝 */
+    --amber:      oklch(72% 0.15 70);    /* 暖琥珀 */
+
+    /* 梯度色 */
+    --g-dachong:  oklch(58% 0.18 25);    /* 大冲 红 */
+    --g-chong:    oklch(66% 0.16 50);    /* 冲 橙 */
+    --g-xiao:     oklch(74% 0.14 90);    /* 小冲 黄 */
+    --g-wen:      oklch(64% 0.13 155);   /* 稳 绿 */
+    --g-bao:      oklch(56% 0.12 215);   /* 保 蓝 */
+
+    --r: 14px;
+    --shadow: 0 1px 2px oklch(24% 0.03 250 / 0.05), 0 8px 24px -12px oklch(24% 0.03 250 / 0.18);
+    --text-hero: clamp(2.1rem, 1.2rem + 3.6vw, 4.4rem);
+    --space: clamp(3rem, 2rem + 4vw, 6rem);
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif;
+    color: var(--ink);
+    background: var(--paper);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  .display { font-family: "Songti SC", "STSong", Georgia, serif; }
+
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 clamp(1rem, 3vw, 2.5rem); }
+  section { padding-block: var(--space); }
+  a { color: var(--accent); }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    position: relative;
+    padding-block: clamp(3.5rem, 3rem + 6vw, 8rem) clamp(2.5rem, 2rem + 4vw, 5rem);
+    background:
+      radial-gradient(120% 120% at 85% -10%, oklch(52% 0.13 245 / 0.10), transparent 55%),
+      radial-gradient(90% 90% at -5% 110%, oklch(72% 0.15 70 / 0.10), transparent 50%),
+      var(--paper);
+    border-bottom: 1px solid var(--line);
+    overflow: hidden;
+  }
+  .hero::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background-image: radial-gradient(oklch(24% 0.03 250 / 0.04) 1px, transparent 1px);
+    background-size: 22px 22px; mask-image: linear-gradient(180deg, transparent, #000 40%, transparent);
+  }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: .5rem;
+    font-size: .78rem; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--accent); font-weight: 600; margin-bottom: 1.2rem;
+  }
+  .eyebrow::before { content: ""; width: 28px; height: 1.5px; background: var(--accent); }
+  .hero h1 {
+    font-size: var(--text-hero); line-height: 1.04; font-weight: 700;
+    letter-spacing: -.01em; max-width: 16ch;
+  }
+  .hero h1 em { font-style: normal; color: var(--accent); }
+  .hero .sub { margin-top: 1.4rem; font-size: clamp(1rem, .95rem + .3vw, 1.2rem); color: var(--ink-soft); max-width: 46ch; }
+
+  .profile {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1px; margin-top: 2.6rem; background: var(--line);
+    border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; box-shadow: var(--shadow);
+  }
+  .profile .cell { background: var(--surface); padding: 1.1rem 1.25rem; }
+  .profile .k { font-size: .76rem; color: var(--ink-faint); letter-spacing: .04em; }
+  .profile .v { font-size: 1.5rem; font-weight: 700; margin-top: .15rem; letter-spacing: -.01em; }
+  .profile .v small { font-size: .9rem; font-weight: 500; color: var(--ink-soft); }
+  .profile .v.warn { color: var(--g-dachong); }
+
+  /* ---------- section headers ---------- */
+  .sec-head { margin-bottom: 2.2rem; max-width: 60ch; }
+  .sec-head .num { font-family: "Songti SC", serif; font-size: .85rem; color: var(--amber); font-weight: 700; letter-spacing: .1em; }
+  .sec-head h2 { font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.5rem); line-height: 1.15; margin-top: .3rem; letter-spacing: -.01em; }
+  .sec-head p { margin-top: .8rem; color: var(--ink-soft); }
+
+  /* ---------- key conclusions ---------- */
+  .conclusions { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.2rem; }
+  .card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--r);
+    padding: 1.6rem; box-shadow: var(--shadow); transition: transform .4s var(--ease), box-shadow .4s var(--ease);
+  }
+  .card:hover { transform: translateY(-4px); box-shadow: 0 12px 36px -14px oklch(24% 0.03 250 / 0.28); }
+  .card .idx { font-family: "Songti SC", serif; font-size: 2.4rem; line-height: 1; color: var(--accent); opacity: .25; font-weight: 700; }
+  .card h3 { margin-top: .6rem; font-size: 1.15rem; }
+  .card p { margin-top: .5rem; color: var(--ink-soft); font-size: .96rem; }
+  .card code { background: var(--surface-2); padding: .1em .45em; border-radius: 6px; font-size: .85em; color: var(--accent); }
+
+  /* ---------- chart ---------- */
+  .chart-panel {
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--r);
+    box-shadow: var(--shadow); padding: clamp(1.2rem, 1rem + 1vw, 2rem);
+  }
+  .chart-meta { display: flex; flex-wrap: wrap; gap: 1.4rem 2rem; align-items: baseline; margin-bottom: 1.5rem; }
+  .chart-meta .baseline-tag {
+    display: inline-flex; gap: .5rem; align-items: center; font-weight: 600; color: var(--ink);
+    font-size: .95rem;
+  }
+  .chart-meta .baseline-tag b { color: var(--accent); font-size: 1.05rem; }
+  .legend { display: flex; flex-wrap: wrap; gap: .4rem 1.1rem; font-size: .82rem; color: var(--ink-soft); }
+  .legend span { display: inline-flex; align-items: center; gap: .4rem; }
+  .legend i { width: 11px; height: 11px; border-radius: 3px; display: inline-block; }
+
+  .chart-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  #chart { width: 100%; min-width: 920px; height: auto; display: block; font-size: 11px; }
+  .scroll-hint { display: none; text-align: center; font-size: .78rem; color: var(--ink-faint); margin-top: .5rem; }
+  #chart text { font-family: inherit; }
+  .bar { transition: opacity .25s; cursor: default; }
+  .bar:hover { opacity: .8; }
+
+  /* ---------- filters + table ---------- */
+  .controls { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1.4rem; align-items: center; }
+  .controls .group { display: inline-flex; gap: .4rem; flex-wrap: wrap; }
+  .chip {
+    border: 1px solid var(--line); background: var(--surface); color: var(--ink-soft);
+    padding: .42rem .9rem; border-radius: 999px; font-size: .85rem; cursor: pointer;
+    transition: all .2s var(--ease); font-family: inherit; user-select: none;
+  }
+  .chip:hover { border-color: var(--accent); color: var(--accent); }
+  .chip[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .chip.region[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); }
+  .count { margin-left: auto; font-size: .85rem; color: var(--ink-faint); }
+
+  .table-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r); box-shadow: var(--shadow); }
+  table { width: 100%; border-collapse: collapse; min-width: 760px; background: var(--surface); }
+  thead th {
+    text-align: left; font-size: .78rem; letter-spacing: .04em; color: var(--ink-faint);
+    font-weight: 600; padding: .9rem 1rem; border-bottom: 1px solid var(--line);
+    position: sticky; top: 0; background: var(--surface-2); white-space: nowrap; cursor: pointer; user-select: none;
+  }
+  thead th:hover { color: var(--accent); }
+  thead th .arrow { opacity: .4; font-size: .7em; }
+  tbody td { padding: .85rem 1rem; border-bottom: 1px solid var(--line); font-size: .92rem; vertical-align: top; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: var(--surface-2); }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .school-name { font-weight: 600; }
+  .pill { display: inline-block; padding: .15rem .6rem; border-radius: 999px; font-size: .76rem; font-weight: 600; white-space: nowrap; color: #fff; }
+  .tag-prop { font-size: .74rem; padding: .1rem .5rem; border-radius: 6px; border: 1px solid var(--line); color: var(--ink-faint); margin-left: .5rem; }
+  .tag-prop.minban { color: var(--g-chong); border-color: oklch(66% 0.16 50 / .4); }
+  .tag-est { font-size: .72rem; padding: .1rem .5rem; border-radius: 6px; margin-left: .5rem; font-weight: 600; color: var(--amber); background: oklch(72% 0.15 70 / .14); border: 1px solid oklch(72% 0.15 70 / .4); cursor: help; }
+  .info-i { display:inline-flex; align-items:center; justify-content:center; width:16px; height:16px; border-radius:50%; background:var(--g-wen); color:#fff; font-size:11px; font-weight:700; font-style:italic; margin-left:.45rem; cursor:help; vertical-align:middle; }
+  .chart-note { margin-top: 1.2rem; padding-top: 1rem; border-top: 1px dashed var(--line); font-size: .82rem; color: var(--ink-faint); line-height: 1.65; }
+  .chart-note strong { color: var(--ink-soft); }
+  .chart-note .vk { color: var(--g-wen); font-weight: 600; }
+  .majors { color: var(--ink-soft); font-size: .86rem; }
+  .gap-pos { color: var(--g-wen); font-weight: 600; }
+  .gap-neg { color: var(--g-dachong); font-weight: 600; }
+
+  /* ---------- structure bars ---------- */
+  .struct { display: grid; gap: .8rem; }
+  .struct-row { display: grid; grid-template-columns: 84px 1fr auto; gap: 1rem; align-items: center; }
+  .struct-row .rname { font-weight: 600; }
+  .struct-bar { height: 30px; border-radius: 8px; background: var(--surface-2); overflow: hidden; position: relative; }
+  .struct-fill { height: 100%; border-radius: 8px; display: flex; align-items: center; padding-left: .7rem; color: #fff; font-size: .82rem; font-weight: 600; width: 0; transition: width 1.1s var(--ease); }
+  .reveal.in .struct-fill, .struct-fill.shown { width: var(--w); }
+  .struct-row .rnum { color: var(--ink-soft); font-size: .88rem; white-space: nowrap; }
+
+  /* ---------- majors routes ---------- */
+  .routes { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.2rem; }
+  .route { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 1.4rem; box-shadow: var(--shadow); border-top: 3px solid var(--accent); }
+  .route h3 { font-size: 1.1rem; }
+  .route ol { margin: .8rem 0 0 1.1rem; color: var(--ink-soft); font-size: .92rem; }
+  .route ol li { margin-bottom: .25rem; }
+  .route .fit { margin-top: .9rem; font-size: .82rem; color: var(--ink-faint); border-top: 1px dashed var(--line); padding-top: .7rem; }
+  .route p { margin-top: .55rem; color: var(--ink-soft); font-size: .93rem; }
+  .route .route-tag { font-size: .8rem; color: var(--accent); font-weight: 600; margin-top: .25rem; }
+  .block-title { font-size: 1.18rem; font-weight: 700; margin: 2.4rem 0 1.1rem; padding-left: .7rem; border-left: 4px solid var(--accent); }
+
+  /* ---------- method stepper ---------- */
+  .method { display: grid; gap: 0; }
+  .step { display: grid; grid-template-columns: 56px 1fr; gap: 1.3rem; padding-bottom: 1.9rem; position: relative; }
+  .step:not(:last-child)::before { content:""; position:absolute; left:27px; top:50px; bottom:-2px; width:2px; background: linear-gradient(var(--accent), var(--line)); }
+  .step .badge { width:54px; height:54px; border-radius:50%; display:grid; place-items:center; font-family:"Songti SC","STSong",serif; font-weight:700; font-size:1.5rem; color:#fff; background:var(--accent); box-shadow:var(--shadow); z-index:1; }
+  .step .body { padding-top:.35rem; min-width:0; }
+  .step h3 { font-size:1.18rem; }
+  .step p { color:var(--ink-soft); margin-top:.45rem; font-size:.96rem; }
+  .step .hl { color:var(--ink); font-weight:600; }
+  .step code { background:var(--surface-2); padding:.1em .5em; border-radius:6px; font-size:.85em; color:var(--accent); white-space:nowrap; }
+  .grade-quick { display:flex; flex-wrap:wrap; gap:.5rem; margin-top:.9rem; }
+  .grade-quick .gq { display:flex; flex-direction:column; gap:.05rem; padding:.5rem .85rem; border-radius:10px; color:#fff; min-width:92px; }
+  .grade-quick .gq b { font-size:.98rem; }
+  .grade-quick .gq span { font-size:.73rem; opacity:.92; }
+  .ladder { display:flex; gap:2px; margin-top:1rem; border-radius:9px; overflow:hidden; }
+  .ladder .seg { height:36px; display:grid; place-items:center; color:#fff; font-size:.74rem; font-weight:600; text-align:center; line-height:1.1; }
+  .example { margin-top:1.6rem; background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--g-wen); border-radius:12px; padding:1.2rem 1.4rem; box-shadow:var(--shadow); }
+  .example .ex-title { font-weight:700; color:var(--ink); font-size:1rem; }
+  .example .ex-row { font-size:.92rem; color:var(--ink-soft); margin-top:.5rem; padding-left:.2rem; }
+  .example .ex-row b { color:var(--accent); }
+
+  /* ---------- pitfalls ---------- */
+  .pitfalls { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+  .pit { display: flex; gap: .9rem; background: var(--surface); border: 1px solid var(--line); border-left: 3px solid var(--amber); border-radius: 10px; padding: 1.1rem 1.2rem; box-shadow: var(--shadow); }
+  .pit .pi { font-family: "Songti SC", serif; font-weight: 700; color: var(--amber); font-size: 1.3rem; line-height: 1; }
+  .pit p { font-size: .92rem; color: var(--ink-soft); }
+  .pit b { color: var(--ink); }
+
+  /* ---------- footer ---------- */
+  footer { border-top: 1px solid var(--line); padding-block: 2.5rem; color: var(--ink-faint); font-size: .85rem; background: var(--surface-2); }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; }
+  .disclaimer { background: oklch(72% 0.15 70 / .1); border: 1px solid oklch(72% 0.15 70 / .35); border-radius: 10px; padding: 1rem 1.2rem; font-size: .88rem; color: var(--ink-soft); margin-top: 1.4rem; }
+
+  /* ---------- tap-to-view bottom sheet (mobile-friendly tooltips) ---------- */
+  .sheet { position: fixed; inset: 0; background: oklch(20% 0.03 250 / .45); display: flex; align-items: flex-end; justify-content: center; padding: 1rem; z-index: 60; }
+  .sheet[hidden] { display: none; }
+  .sheet-card { background: var(--surface); border-radius: 18px; padding: 1.5rem 1.4rem 1.7rem; max-width: 560px; width: 100%; box-shadow: 0 -10px 50px oklch(20% .03 250 / .35); position: relative; animation: sheetUp .3s var(--ease); }
+  @keyframes sheetUp { from { transform: translateY(18px); opacity: 0; } }
+  .sheet-card .sheet-title { font-weight: 700; color: var(--ink); margin-bottom: .6rem; padding-right: 2rem; }
+  .sheet-card p { font-size: .92rem; color: var(--ink-soft); line-height: 1.75; }
+  .sheet-x { position: absolute; top: .8rem; right: .9rem; border: none; background: var(--surface-2); width: 32px; height: 32px; border-radius: 50%; font-size: 1.2rem; line-height: 1; cursor: pointer; color: var(--ink-soft); }
+  @media (min-width: 640px) { .sheet { align-items: center; } }
+
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
+  .reveal.in { opacity: 1; transform: none; }
+
+  @media (max-width: 640px) {
+    .struct-row { grid-template-columns: 60px 1fr; }
+    .struct-row .rnum { grid-column: 2; }
+    .scroll-hint { display: block; }
+    section { padding-block: clamp(2.5rem, 2rem + 3vw, 4rem); }
+    .card, .route, .pit { padding: 1.2rem; }
+    .controls .count { margin-left: 0; width: 100%; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .struct-fill { transition: none; }
+    html { scroll-behavior: auto; }
+  }
+
+  /* ---------- PRINT / PDF ---------- */
+  @page { size: A4; margin: 13mm 11mm; }
+  @media print {
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    html, body { background: #fff; overflow: visible; }
+    .wrap { max-width: 100%; padding: 0 4mm; }
+    section { padding-block: 10mm 6mm; }
+    /* 关键：取消入场动画，否则整页 opacity:0 变空白 */
+    .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+    .struct-fill { width: var(--w) !important; transition: none !important; }
+    .card, .route { transform: none !important; box-shadow: none !important; }
+    /* 隐藏屏幕专用 / 交互元素 */
+    .scroll-hint, .controls, #sheet, .hero::after { display: none !important; }
+    /* 图表铺满页面、表格展开 */
+    .chart-scroll { overflow: visible !important; }
+    #chart { min-width: 0 !important; }
+    .table-scroll { overflow: visible !important; box-shadow: none; }
+    table { min-width: 0 !important; width: 100%; font-size: 8pt; }
+    td, thead th { padding: 4pt 5pt; }
+    td.majors { font-size: 7.5pt; }
+    thead { display: table-header-group; }
+    thead th { position: static !important; }
+    tr, .card, .route, .pit, .step, .example, .chart-panel, .conclusions, .routes, .pitfalls, .profile { break-inside: avoid; }
+    .sec-head, h2, h3 { break-after: avoid; }
+    .hero { break-after: avoid; }
+    a { color: var(--ink); text-decoration: none; }
+    .card, .route, .pit, .step { box-shadow: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow">三版报告合并 + 广深补充 · 掌上高考复核 · 2026 参考版</span>
+    <h1 class="display">安徽历史类 <em>394 分</em> 高职志愿<br>填报合并分析</h1>
+    <p class="sub">整合「初筛版 / 深度版 / 更新版」三份报告，统一<strong>按位次定位</strong>，给出院校位次图、可筛选院校池与填报结构。</p>
+    <div class="profile">
+      <div class="cell"><div class="k">科类 / 性别</div><div class="v">历史类 <small>· 男</small></div></div>
+      <div class="cell"><div class="k">总分</div><div class="v">394</div></div>
+      <div class="cell"><div class="k">省排名（位次）</div><div class="v">101351</div></div>
+      <div class="cell"><div class="k">数学（关键短板）</div><div class="v warn">28</div></div>
+      <div class="cell"><div class="k">语文 / 英语</div><div class="v">111 <small>/ 70</small></div></div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- 核心结论 -->
+<section class="wrap reveal">
+  <div class="sec-head">
+    <span class="num">01 — 核心结论</span>
+    <h2 class="display">三条主线，先定方向再定学校</h2>
+    <p>本案录取定位采纳更新版的「按位次」保守口径，专业覆盖采纳深度版的完整方向，省内主盘与外省补充并存。</p>
+  </div>
+  <div class="conclusions">
+    <div class="card">
+      <div class="idx">壹</div>
+      <h3>结构：安徽主盘 + 外省补充</h3>
+      <p>安徽公办技术类为主盘（22–26 个），江苏 / 广东作就业补充，浙江 / 上海少量冲；<b>广州深圳、辽宁/吉林/黑龙江公办为可选补充池</b>（择优与江浙沪粤等额替换、不叠加，总数仍 45）。务必留足公办保底，多数志愿勾选专业服从调剂。</p>
+    </div>
+    <div class="card">
+      <div class="idx">贰</div>
+      <h3>定位：按位次，不按分数</h3>
+      <p>2025 年很多学校分数接近 394，但对应<b>位次比 101351 高出上万名</b>（=更难），只能算「冲」。一律以位次判断。</p>
+    </div>
+    <div class="card">
+      <div class="idx">叁</div>
+      <h3>专业：组合主线更稳</h3>
+      <p><code>无人机应用 + 机电一体化 + 工业机器人 + 新能源汽车 + 物联网</code>，比单押「机器人」或「无人机」更稳。数学 28 分 → 避开纯软件 / 大数据 / AI 算法。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 填报方法 -->
+<section class="wrap reveal">
+  <div class="sec-head">
+    <span class="num">02 — 填报方法</span>
+    <h2 class="display">五步法：从「一堆数据」到「45 个志愿」</h2>
+    <p>有数据还要有方法。按这五步走：先定方向，再用位次卡梯度，最后把 45 个院校专业组铺满——稳和保是基本盘，冲不超过四分之一。</p>
+  </div>
+  <div class="method">
+    <div class="step">
+      <div class="badge">壹</div>
+      <div class="body">
+        <h3>定专业主线（先方向，后学校）</h3>
+        <p>从四条路线里选 <span class="hl">1–2 条</span>作主线，别被校名带跑：<code>无人机</code> · <code>机电/机器人</code> · <code>新能源汽车</code> · <code>物联网/物流</code>。数学 28 分 → 避开纯软件 / 大数据 / AI 算法（详见下方「专业路线模板」）。</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="badge">贰</div>
+      <div class="body">
+        <h3>用位次卡梯度（最关键的一步）</h3>
+        <p>以考生 <span class="hl">位次 101351</span> 为尺子，对照每个<span class="hl">「院校专业组」</span>的 2025 投档位次定冲稳保（必须看历史类、不是物理类；看专业组、不是学校整体）：</p>
+        <div class="grade-quick" id="gradeQuick"></div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="badge">叁</div>
+      <div class="body">
+        <h3>按 45 个名额铺梯度</h3>
+        <p>平行志愿一次投档，顺序检索。配比让<span class="hl">稳 + 保占大头</span>，冲在前但不贪：</p>
+        <div class="ladder" id="ladder"></div>
+        <p>区域配比（核心）：安徽 22–26（主盘）+ 广东 5–7 + 江苏 5–7 + 浙江 3–5 + 上海 2–3。<span class="hl">广州深圳（建议 6–10）、辽吉黑（建议 8–12）为补充池</span>，与江浙沪粤等额替换、总数仍控 45（见下方「志愿结构」与「合并院校池」）。</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="badge">肆</div>
+      <div class="body">
+        <h3>每组内排 6 个专业 + 勾服从</h3>
+        <p>每个院校专业组可填 6 个专业：<span class="hl">最想读的放最前</span>，依次递减。<span class="hl">务必勾选「专业服从调剂」</span>以降低退档风险——前提是先确认这一组里没有完全不能接受的专业。</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="badge">伍</div>
+      <div class="body">
+        <h3>逐校核验再定稿</h3>
+        <p>每所学校照清单过一遍：① 是否招安徽历史类 ② 专业组代码 ③ 选科要求 ④ 身体条件 ⑤ 学费 / 是否公办 ⑥ 近两年位次是否稳定 ⑦ 是否勾服从。<span class="hl">标「待核」的（如上海 3 校）必须先拿到官方表再定。</span></p>
+      </div>
+    </div>
+  </div>
+  <div class="example">
+    <div class="ex-title">🎯 走一遍：安徽汽车职业技术学院（2025 历史 365 分 / 位次 102392）</div>
+    <div class="ex-row"><b>① 方向</b>　主线选「新能源汽车」→ 该校王牌方向，高度匹配</div>
+    <div class="ex-row"><b>② 卡梯度</b>　位次 102392 vs 考生 101351，差值 +1041（考生略领先），落在 100k–105k 区间 → 判定为「<b>稳</b>」</div>
+    <div class="ex-row"><b>③ 铺位置</b>　放进「稳」组（12–15 个名额之一），区域计入安徽主盘</div>
+    <div class="ex-row"><b>④ 排专业</b>　组内顺序：新能源汽车 → 智能网联 → 汽车检测 → 机电 → … → 末位勾「服从调剂」</div>
+    <div class="ex-row"><b>⑤ 核验</b>　确认 2026 招安徽历史类、是否限选科、学费、专业组代码 → 定稿</div>
+  </div>
+</section>
+
+<!-- 位次图 -->
+<section class="wrap reveal">
+  <div class="sec-head">
+    <span class="num">03 — 院校位次图</span>
+    <h2 class="display">以 101351 为基准线，看每所学校的难度</h2>
+    <p>横轴为 2025 安徽历史类投档最低位次。<strong>条形越靠左（位次数字越小）= 越难 = 冲</strong>；越靠右 = 越容易 = 保。基准线右侧（考生领先）才有真正的保底价值。</p>
+  </div>
+  <div class="chart-panel">
+    <div class="chart-meta">
+      <span class="baseline-tag">考生位次基准线 <b>101351</b></span>
+      <div class="legend">
+        <span><i style="background:var(--g-dachong)"></i>大冲</span>
+        <span><i style="background:var(--g-chong)"></i>冲</span>
+        <span><i style="background:var(--g-xiao)"></i>小冲/边缘</span>
+        <span><i style="background:var(--g-wen)"></i>稳</span>
+        <span><i style="background:var(--g-bao)"></i>保底</span>
+      </div>
+    </div>
+    <div class="chart-scroll"><svg id="chart" role="img" aria-label="各院校 2025 安徽历史类投档位次对比图"></svg></div>
+    <p class="scroll-hint">← 手机上可左右滑动查看完整图表 →</p>
+    <p class="chart-note">
+      <span class="vk">数据来源与核验（掌上高考 gaokao.cn 全量复核）：</span>表内所有院校的 2025 安徽历史类·专科批·普通类「投档最低分 / 最低位次」已逐条经掌上高考复核。原 42 校中：安徽机电职业技术学院掌上高考未收录；其余 41 校均已复核，其中 <strong>38 校分数与位次完全一致</strong>，上海 3 校原标「待核」已据掌上高考更正——上海科学技术位次 67883 → <strong>68052</strong>、上海交通 64000 → <strong>65405</strong>、上海城建<strong>由 430/68500 更正为 445/60978</strong>（实际更难）。<br>
+      <strong>广州 / 深圳补充（新增 8 校）：</strong>广东建设、广州职业技术大学、广东轻工、深圳职业技术大学、广州民航、广东新安、广州南洋理工、广东岭南，均取掌上高考 2025 安徽历史类专科普通类实测值（点学校名后的 ⓘ 查看）。<strong>未纳入：</strong>广州铁路、深圳信息（2025 安徽仅有物理类专科数据）、深圳城市职业学院（无安徽专科数据）。<br>
+      <strong>东北补充（新增 16 校）：</strong>辽宁 5（辽宁机电、辽宁交专、大连、沈阳、渤海船舶）、吉林 5（吉林工业、水利电力、电子信息、交通、长春信息）、黑龙江 6（黑龙江农业工程、黑龙江职业学院、林业、旅游、牡丹江大学、黑龙江交通），均取掌上高考 2025 安徽历史类专科普通类实测值。<strong>未纳入：</strong>辽宁装备制造/辽宁轨道交通/辽宁铁道/吉林铁道大学/长春汽车（2025 安徽仅物理类专科数据）、哈尔滨职业技术大学（无安徽历史类专科数据）、黑龙江建筑（掌上高考结果未直接命中，待核）。<br>
+      <strong>其他更正：</strong>九州学院位次 140000 → <strong>141166</strong>；广州华立 280/128000 → <strong>200/141391</strong>（压线投档）；安徽机电职业技术学院（报告 451/57623，取自官方投档表）掌上高考未收录、未能在该源复核。原「广州科技贸易职业学院」查无记录已移除。
+    </p>
+  </div>
+</section>
+
+<!-- 院校池 表格 -->
+<section class="wrap reveal">
+  <div class="sec-head">
+    <span class="num">04 — 合并院校池</span>
+    <h2 class="display">可筛选的院校清单（含 2025 位次与方向）</h2>
+    <p style="margin-bottom:.6rem"><strong>本院校池现有 66 所候选</strong>（安徽 22 · 江苏 6 · 浙江 6 · 上海 3 · 广东 13 · 辽宁 5 · 吉林 5 · 黑龙江 6，可按地区/梯度筛选）。注意：<strong>安徽高职专科批最多填 45 个「院校专业组」志愿（系统固定上限）</strong>——从这 66 所候选里按梯度择优，最终填满 45 个志愿即可，并非全部都报。</p>
+    <p>「差值」= 该校位次 − 101351。<strong>正值（绿色）= 该校录取位次排在考生之后（录取线更低）→ 考生领先、保底价值高</strong>；<strong>负值（红色）= 该校录取位次排在考生之前（录取线更高）→ 录取偏冲</strong>。点击表头可排序。</p>
+  </div>
+  <div class="controls">
+    <div class="group" id="region-filter">
+      <button class="chip region" data-region="all" aria-pressed="true">全部地区</button>
+      <button class="chip region" data-region="安徽" aria-pressed="false">安徽</button>
+      <button class="chip region" data-region="江苏" aria-pressed="false">江苏</button>
+      <button class="chip region" data-region="浙江" aria-pressed="false">浙江</button>
+      <button class="chip region" data-region="上海" aria-pressed="false">上海</button>
+      <button class="chip region" data-region="广东" aria-pressed="false">广东</button>
+      <button class="chip region" data-region="辽宁" aria-pressed="false">辽宁</button>
+      <button class="chip region" data-region="吉林" aria-pressed="false">吉林</button>
+      <button class="chip region" data-region="黑龙江" aria-pressed="false">黑龙江</button>
+    </div>
+    <div class="group" id="grade-filter">
+      <button class="chip grade" data-grade="all" aria-pressed="true">全部梯度</button>
+      <button class="chip grade" data-grade="冲" aria-pressed="false">冲</button>
+      <button class="chip grade" data-grade="稳" aria-pressed="false">稳</button>
+      <button class="chip grade" data-grade="保" aria-pressed="false">保</button>
+      <button class="chip grade" data-grade="公办" aria-pressed="false">仅公办</button>
+    </div>
+    <span class="count" id="count"></span>
+  </div>
+  <div class="table-scroll">
+    <table id="tbl">
+      <thead>
+        <tr>
+          <th data-sort="name">学校 <span class="arrow">↕</span></th>
+          <th data-sort="region">地区 <span class="arrow">↕</span></th>
+          <th data-sort="score" class="num">2025分 <span class="arrow">↕</span></th>
+          <th data-sort="rank" class="num">位次 <span class="arrow">↕</span></th>
+          <th data-sort="gap" class="num">差值 <span class="arrow">↕</span></th>
+          <th data-sort="gradeOrder">梯度 <span class="arrow">↕</span></th>
+          <th data-sort="majors">推荐方向</th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 志愿结构 -->
+<section class="wrap reveal">
+  <div class="sec-head">
+    <span class="num">05 — 志愿结构</span>
+    <h2 class="display">45 个院校专业组的区域配比</h2>
+    <p>梯度分配建议：高冲 8–10 · 低冲/边缘 10–12 · 稳 12–15 · 保底 8–10。</p>
+    <p style="font-size:.9rem;color:var(--ink-faint);margin-top:.4rem">下表为<strong>初始核心配比</strong>；广州深圳、辽宁/吉林/黑龙江为补充池，按需与江浙沪粤等额替换。<strong>45 = 安徽可填志愿上限（系统固定）</strong>，从上方 66 所候选里择优填满即可，并非全报。</p>
+  </div>
+  <div class="struct" id="struct"></div>
+</section>
+
+<!-- 专业路线 -->
+<section class="wrap reveal">
+  <div class="sec-head">
+    <span class="num">06 — 专业路线模板</span>
+    <h2 class="display">四条可落地的专业排序</h2>
+  </div>
+  <div class="routes" id="routes"></div>
+</section>
+
+<!-- 避坑 -->
+<section class="wrap reveal">
+  <div class="sec-head">
+    <span class="num">07 — 避坑与风险</span>
+    <h2 class="display">填报前必须记住的七件事</h2>
+  </div>
+  <div class="pitfalls" id="pitfalls"></div>
+  <div class="disclaimer">
+    ⚠️ <b>重要提醒：</b>本页为三版报告的合并参考，所有位次为 2025 年数据、部分标「待核」。最终填报必须以安徽省教育招生考试院系统、2026 年《报考指导》、学校招生章程中的院校专业组代码、专业、选科要求、身体条件、收费标准为准。凡「包就业 / 包录取 / 内部指标」一律不信。
+  </div>
+</section>
+
+<!-- 出国 / 蓝领技能路线 -->
+<section class="wrap reveal">
+  <div class="sec-head">
+    <span class="num">08 — 出国 / 蓝领技能路线</span>
+    <h2 class="display">把专业从「国内好听」改成「国外能认证、能就业、能拿工签」</h2>
+    <p>若把出国读书 / 蓝领技能就业作为长期目标，方向逻辑要变。以下为独立报告的可视化摘要，关键事实已对照德 / 日 / 美官方源核验（少数表述已修正）。</p>
+  </div>
+
+  <h3 class="block-title">国家路线排序</h3>
+  <div class="routes">
+    <div class="route" style="border-top-color:var(--g-wen)">
+      <h3>🇩🇪 德国　★★★★★</h3>
+      <p class="route-tag">Ausbildung 双元制 / 大专后机会卡</p>
+      <p>最适合蓝领长期发展：机电、电气、护理、汽车、建筑、物流需求长期存在；完成职业培训并工作 2 年可申定居。<b>门槛＝德语（B1→B2）。</b></p>
+    </div>
+    <div class="route" style="border-top-color:var(--g-xiao)">
+      <h3>🇯🇵 日本　★★★★☆</h3>
+      <p class="route-tag">特定技能 SSW（19 领域）</p>
+      <p>对学历要求低、路径清晰；1 号 5 年（不带家属），2 号无上限（可带家属）。<b>门槛＝日语（N4→N3）、工资天花板、企业文化。</b></p>
+    </div>
+    <div class="route" style="border-top-color:var(--g-chong)">
+      <h3>🇪🇺 欧洲其他　★★★☆☆</h3>
+      <p class="route-tag">短缺岗位 / EU Talent Pool</p>
+      <p>护理、建筑、电气、暖通有机会，但语言 / 执照 / 资格认可各国差异大。顺序：德国 ＞ 奥地利·瑞士德语区 ＞ 荷兰·北欧 ＞ 东欧。</p>
+    </div>
+    <div class="route" style="border-top-color:var(--g-dachong)">
+      <h3>🇺🇸 美国　★★☆☆☆</h3>
+      <p class="route-tag">社区学院 / 航空维修 / EB-3</p>
+      <p>不建议作蓝领第一目标：学习成本高、工签（H-2B / OPT）不稳、长期身份难。除非家庭预算充足且英语能提升。</p>
+    </div>
+  </div>
+
+  <h3 class="block-title">专业 × 出国适配优先级</h3>
+  <div class="table-scroll">
+    <table>
+      <thead><tr><th>专业</th><th>出国适配</th><th>对接路径</th></tr></thead>
+      <tbody>
+        <tr><td class="school-name">机电一体化技术</td><td><span class="pill" style="background:var(--g-wen)">极高</span></td><td class="majors">德 Mechatroniker / 日 工业产品制造；可转机器人、自动化、维修</td></tr>
+        <tr><td class="school-name">电气自动化技术</td><td><span class="pill" style="background:var(--g-wen)">极高</span></td><td class="majors">德 Elektroniker；工厂、建筑、电力、设备维护通用</td></tr>
+        <tr><td class="school-name">新能源汽车 / 汽车检测与维修</td><td><span class="pill" style="background:var(--g-xiao)">很高</span></td><td class="majors">日 SSW 汽车维修 / 德 Kfz-Mechatroniker</td></tr>
+        <tr><td class="school-name">工业机器人技术</td><td><span class="pill" style="background:var(--g-xiao)">很高</span></td><td class="majors">操作 / 调试 / 维护（非研发）；德日制造业</td></tr>
+        <tr><td class="school-name">智能控制 / 智能制造装备</td><td><span class="pill" style="background:var(--g-bao)">高</span></td><td class="majors">PLC、传感器、产线与设备维护</td></tr>
+        <tr><td class="school-name">护理 / 康复 / 老年保健</td><td><span class="pill" style="background:var(--g-bao)">高</span></td><td class="majors">德日老龄化刚需，<b>隐藏强路线</b>；须能吃苦</td></tr>
+        <tr><td class="school-name">无人机应用技术</td><td><span class="pill" style="background:var(--g-chong)">中高</span></td><td class="majors">须绑定测绘 / 巡检 / 农业 / 应急，不作唯一主线</td></tr>
+        <tr><td class="school-name">现代物流 / 智能物流</td><td><span class="pill" style="background:var(--g-chong)">中</span></td><td class="majors">日 物流仓库 / 欧仓储；天花板较低</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="example">
+    <div class="ex-title">🧭 最建议的专业组合</div>
+    <div class="ex-row"><b>主线</b>　机电一体化 + 工业机器人 + 电气自动化 + 新能源汽车</div>
+    <div class="ex-row"><b>第二条强路线</b>　护理 / 康复 / 老年服务 + 德语或日语（若孩子能接受照护工作）</div>
+    <div class="ex-row"><b>一句话</b>　机电 / 电气 / 汽车 / 护理 + 德语或日语 + 实训项目 + 技能证书——别追热门概念</div>
+  </div>
+
+  <h3 class="block-title">三年行动计划</h3>
+  <div class="method">
+    <div class="step"><div class="badge" style="font-size:1.05rem">大一</div><div class="body"><h3>打基础，定方向</h3><p>专业课不挂科；学电工、机械制图、CAD、PLC 入门；<span class="hl">选一门语言</span>（德语 A1–A2 / 日语 N5–N4）；考驾照等基础证；多进实训。</p></div></div>
+    <div class="step"><div class="badge" style="font-size:1.05rem">大二</div><div class="body"><h3>做项目和证书</h3><p>技能竞赛 / 校内项目；主攻 PLC、机器人调试、电气接线、汽车诊断；德语冲 A2–B1 / 日语冲 N4–N3；关注中德、中日交换或企业实习。</p></div></div>
+    <div class="step"><div class="badge" style="font-size:1.05rem">大三</div><div class="body"><h3>决定路线</h3><p>德国：德语 B1–B2 + 备 Ausbildung / 资格认可材料；日本：日语 N3（N2 更好）+ SSW 日语&技能考；美国：算清预算，优先社区学院 / 航空维修。</p></div></div>
+  </div>
+
+  <h3 class="block-title">出国路线避坑</h3>
+  <div class="pitfalls">
+    <div class="pit"><div class="pi">语</div><p><b>语言是最大门槛</b>：不学德语 / 日语基本走不通，大一就开始。</p></div>
+    <div class="pit"><div class="pi">证</div><p><b>资格认可要留痕</b>：成绩单、课程描述、实习证明、证书翻译尽早留存。</p></div>
+    <div class="pit"><div class="pi">介</div><p><b>警惕中介</b>：「包签证 / 包工作 / 包移民」多半有问题，只信官方门户与企业官网。</p></div>
+    <div class="pit"><div class="pi">机</div><p><b>无人机只作复合技能</b>：受航空法规（FAA Part 107 / EASA）与语言限制，不作出国唯一主线。</p></div>
+    <div class="pit"><div class="pi">美</div><p><b>别把美国当低成本移民</b>：H-2B 临时、OPT 是过渡、EB-3 排期久，身份不确定。</p></div>
+  </div>
+</section>
+
+</main>
+
+<div class="sheet" id="sheet" hidden>
+  <div class="sheet-card">
+    <button class="sheet-x" id="sheetX" aria-label="关闭">×</button>
+    <div class="sheet-title" id="sheetTitle"></div>
+    <p id="sheetText"></p>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <span>安徽历史类 394 分 · 高职志愿填报合并分析 · 数据口径：2025 安徽历史类投档位次</span>
+    <span>合并自 初筛版 / 深度版(v3) / 更新版 + 广深补充；全量经掌上高考(gaokao.cn)复核</span>
+  </div>
+</footer>
+
+<script>
+// ===== 合并院校数据（来源：三版报告，按位次重排） =====
+// grade: 大冲|冲|小冲|稳|保  | prop: 公办|民办  | gap = 101351 - rank
+const BASE = 101351;
+const RAW = [
+  // 安徽
+  ["安徽机电职业技术学院","安徽",451,57623,"大冲","公办","机电、机器人、电气、智能控制"],
+  ["安徽交通职业技术学院","安徽",437,65352,"大冲","公办","轨道、智能交通、汽车、机电"],
+  ["安徽水利水电职业技术学院","安徽",434,66503,"大冲","公办","电气、机电、智能建造"],
+  ["安徽工业经济职业技术学院","安徽",421,73718,"大冲","公办","工程、机电、电子信息"],
+  ["滁州职业技术学院","安徽",398,85617,"大冲","公办","机电、新能源汽车、机器人"],
+  ["淮北职业技术学院","安徽",394,87631,"大冲","公办","机电、汽车、信息类"],
+  ["安徽邮电职业技术学院","安徽",385,92528,"冲","公办","物联网、通信、计算机应用"],
+  ["安徽电子信息职业技术学院","安徽",379,95443,"冲","公办","无人机、智能机器人、工业机器人、物联网、新能源汽车"],
+  ["安徽国防科技职业学院","安徽",378,96330,"小冲","公办","机电、数控、智能制造、汽车"],
+  ["安徽中澳科技职业学院","安徽",372,99132,"小冲","公办","计算机、信息、物流"],
+  ["安徽国际商务职业学院","安徽",367,101346,"稳","公办","现代物流、跨境电商（文科稳妥）"],
+  ["池州职业技术学院","安徽",367,101649,"稳","公办","机电、汽车、电子信息、物流"],
+  ["安徽汽车职业技术学院","安徽",365,102392,"稳","公办","新能源汽车、智能网联、汽车检测、机电"],
+  ["安徽工业职业技术学院","安徽",364,103272,"稳","公办","机电、工业机器人、电气、新能源汽车、物联网"],
+  ["安徽工贸职业技术学院","安徽",359,105291,"保","公办","机电、工业机器人、电气、无人机、新能源汽车"],
+  ["安庆职业技术学院","安徽",352,108603,"保","公办","智能网联、机电、工业机器人、新能源汽车"],
+  ["六安职业技术学院","安徽",346,110853,"保","公办","机电、汽车、无人机、计算机应用"],
+  ["淮南职业技术学院","安徽",342,112435,"保","公办","机电、电子信息、汽车"],
+  ["安徽冶金科技职业学院","安徽",341,112971,"保","公办","冶金、机电、智能制造、汽车"],
+  ["宿州职业技术学院","安徽",336,114932,"保","公办","机电、汽车、现代农业装备、信息类"],
+  ["合肥科技职业学院","安徽",298,126159,"保","民办","信息、汽车、机电（先看学费）"],
+  ["芜湖航空职业学院","安徽",246,135859,"保","民办","无人机/航空（警惕营销）"],
+  // 江苏
+  ["南京机电职业技术学院","江苏",476,44899,"大冲","公办","机电、智能控制、电气"],
+  ["江苏工程职业技术学院","江苏",450,58163,"大冲","公办","机电、机器人、电气、智能制造"],
+  ["江苏商贸职业学院","江苏",426,70967,"大冲","公办","物联网、物流、电子商务"],
+  ["江苏航空职业技术学院","江苏",416,76140,"大冲","公办","无人机、飞机机电、航空物流、民航安全"],
+  ["苏州工业园区职业技术学院","江苏",297,126356,"保","民办","工业机器人、智能控制、机电（城市强，看学费）"],
+  ["九州职业技术学院","江苏",202,141166,"保","民办","机电、无人机、计算机应用"],
+  // 浙江
+  ["浙江安防职业技术学院","浙江",440,63452,"大冲","公办","无人机、应急救援、安防、物联网"],
+  ["浙江国际海运职业技术学院","浙江",415,76544,"大冲","公办","港口物流、航海、机电、无人机/测绘（身体条件）"],
+  ["浙江东方职业技术学院","浙江",368,100948,"稳","民办","物联网、智能制造、物流"],
+  ["绍兴职业技术学院","浙江",363,103592,"稳","民办","机电、计算机应用、智能制造"],
+  ["浙江育英职业技术学院","浙江",304,124611,"保","民办","信息、物流、服务类"],
+  ["嘉兴南洋职业技术学院","浙江",301,125327,"保","民办","机电、智能制造、物流"],
+  // 上海
+  ["上海科学技术职业学院","上海",432,68052,"大冲","公办","智能机电、物联网、智能控制、信息安全",0,"2025安徽历史类专科普通类432分/68052位（掌上高考核验，原报告位次67883已据此更正为68052）。已据2026官方招生章程核实：公办，普通类学费7500元/年、住宿1200元/年；录取规则为「分数优先、遵循专业志愿先后、不设专业级差」，同分比语文、数学、外语，务必勾服从调剂否则退档；体检仅艺术类色盲色弱不宜，与机电/信息方向无关。"],
+  ["上海交通职业技术学院","上海",437,65405,"大冲","公办","新能源汽车·汽车智能·机电一体化·智能机电·城轨运营·智慧交通",0,"2025安徽历史类专科普通类437分/65405位（掌上高考核验，原报告位次64000已据此更正为65405）。已据2026官方招生章程核实：公办，普通类学费7500元/年、住宿1100–1200元/年；录取规则为「专业志愿优先(专业清)、专业间不设级差」，务必勾服从调剂否则退档；城轨/智能机电/港口机械等14个专业不录色盲，轮机工程技术要求身高1.50m及以上和视力。"],
+  ["上海城建职业学院","上海",445,60978,"大冲","公办","智能建造、工程测量、物联网、城市运营",0,"⚠原报告430分/68500位有误：2025安徽历史类专科普通类实为445分/60978位（掌上高考核验），实际比报告更难。已据2026官方招生章程核实：公办，普通类学费7500元/年、住宿1200元/年；录取规则为「分数优先」(与上海交通的专业清相反)，同分比数学、语文、外语，务必勾服从调剂否则退档；色盲色弱限制仅针对护理/医学检验等医卫类专业，与机电/工程方向无关。"],
+  // 广东
+  ["广东交通职业技术学院","广东",393,88323,"冲","公办","智能交通、轨道、汽车、新能源、物流"],
+  ["广东机电职业技术学院","广东",383,93799,"冲","公办","机电、工业机器人、电气、新能源汽车"],
+  ["广东工程职业技术学院","广东",373,98604,"小冲","公办","工程测量、智能建造、机电、信息"],
+  ["广东农工商职业技术学院","广东",301,125421,"保","公办","物联网、现代物流、汽车、电子信息（第二轮双高）"],
+  ["广州华立科技职业学院","广东",200,141391,"保","民办","工业机器人、机电、无人机（压线投档）"],
+  // 广深补充（2025 安徽历史类·专科批·普通类，掌上高考核验）
+  ["深圳职业技术大学","广东",497,34445,"大冲","公办","机电、物联网、智能制造（头部职业本科，分明显不够）",0,"2025安徽历史类专科普通类497分/34445位（掌上高考核验）。对394分、位次101351属极限大冲，不建议占用志愿位。"],
+  ["广东轻工职业技术大学","广东",478,44014,"大冲","公办","汽车智能、物联网、物流、机电（职业本科）",0,"2025安徽历史类专科普通类478分/44014位（掌上高考核验）。头部高职升格职业本科，热度高、分差大，基本不建议主报。"],
+  ["广州民航职业技术学院","广东",477,44620,"大冲","公办","航空物流、民航运输、安全技术、机务维修（看身体条件/英语）",0,"2025安徽历史类专科普通类477分/44620位（掌上高考核验；另有中外合作461分/52702位）。民航类专业就业差异大，注意身体条件与岗位适配。"],
+  ["广州职业技术大学","广东",429,69592,"大冲","公办","智能制造装备、工业机器人、物联网、新能源汽车、物流",0,"2025安徽历史类专科普通类429分/69592位（掌上高考核验）。番禺职院升格职业本科，平台好但分差大，最多放1个大冲。"],
+  ["广东建设职业技术学院","广东",372,99098,"小冲","公办","工程测量、智能建造、建筑智能化、市政、道桥、物联网（低空巡检/测绘）",0,"2025安徽历史类专科普通类372分/99098位（掌上高考核验）。位次接近考生101351，广州方向公办首选；部分专业在清远校区，以2026安徽计划为准。"],
+  ["广东新安职业技术学院","广东",212,140303,"保","民办","物联网、计算机、电子信息、物流（深圳·民办兜底）",0,"2025安徽历史类专科普通类212分/140303位（掌上高考核验）。深圳民办，学费与生活成本高，仅作强烈想去深圳时的兜底。"],
+  ["广州南洋理工职业学院","广东",206,140849,"保","民办","机电、工业机器人、无人机、新能源汽车、物联网（广州从化·民办兜底）",0,"2025安徽历史类专科普通类206分/140849位（掌上高考核验）。民办，保底价值大于学校价值，不建议放在公办前面。"],
+  ["广东岭南职业技术学院","广东",207,140728,"保","民办","物联网、计算机网络、新能源汽车、工业机器人（广州/清远·民办兜底）",0,"2025安徽历史类专科普通类207分/140728位（掌上高考核验）。民办兜底，校区/住宿/实训/就业资源需提前确认。"],
+  // 东北补充（2025 安徽历史类·专科批·普通类，掌上高考核验）— 辽宁
+  ["辽宁机电职业技术学院","辽宁",305,124254,"保","公办","机电一体化、电气自动化、工业机器人、智能控制、无人机应用",0,"2025安徽历史类专科普通类305分/124254位（掌上高考核验）。丹东·公办，机电/机器人方向匹配度高、分数安全，东北首选。"],
+  ["辽宁省交通高等专科学校","辽宁",330,117012,"保","公办","道路与桥梁、汽车检测、智能工程机械、现代物流、交通工程",0,"2025安徽历史类专科普通类330分/117012位（掌上高考核验）。沈阳·公办交通强校，稳妥保底。"],
+  ["大连职业技术学院","辽宁",332,116190,"保","公办","机电一体化、电气自动化、工业机器人、新能源汽车、物联网",0,"2025安徽历史类专科普通类332分/116190位（掌上高考核验）。大连·公办，城市与就业平台较好。"],
+  ["沈阳职业技术学院","辽宁",336,114575,"保","公办","机械制造、电气、机电、智能制造、现代物流",0,"2025安徽历史类专科普通类336分/114575位（掌上高考核验）。沈阳·公办，工业基础好。"],
+  ["渤海船舶职业学院","辽宁",391,89110,"冲","公办","船舶工程、船舶电气、智能控制、工业机器人、智能焊接、机电一体化",0,"2025安徽历史类专科普通类391分/89110位（掌上高考核验）。葫芦岛·公办，船舶/焊接/电气特色强；位次高于考生，属冲，现场作业为主。"],
+  // 东北补充 — 吉林
+  ["吉林工业职业技术学院","吉林",380,95134,"冲","公办","工业机器人、智能控制、机电一体化、电气自动化、化工装备",0,"2025安徽历史类专科普通类380分/95134位（掌上高考核验）。吉林市·公办，工业/智能制造方向。"],
+  ["吉林水利电力职业学院","吉林",385,92377,"冲","公办","水利水电、电力系统、工程测量、无人机巡检",0,"2025安徽历史类专科普通类385分/92377位（掌上高考核验）。长春·公办，电力/水利/巡检运维方向实用。"],
+  ["吉林电子信息职业技术学院","吉林",439,63986,"大冲","公办","电子信息、物联网、工业机器人、智能控制",0,"2025安徽历史类专科普通类439分/63986位（掌上高考核验）。专业不错但位次明显高于考生，大冲。"],
+  ["吉林交通职业技术学院","吉林",362,104227,"稳","公办","无人机、工业机器人、智能控制、新能源汽车、城轨机电",0,"2025安徽历史类专科普通类362分/104227位（掌上高考核验）。长春·公办，专业设置好，以2026安徽历史计划为准。"],
+  ["长春信息技术职业学院","吉林",273,131472,"保","民办","物联网、计算机应用、大数据、移动互联",0,"2025安徽历史类专科普通类273分/131472位（掌上高考核验）。民办，分数安全，学费与就业质量需谨慎。"],
+  // 东北补充 — 黑龙江
+  ["黑龙江农业工程职业技术大学","黑龙江",381,94650,"冲","公办","智能农机、机电一体化、新能源汽车、工业机器人、电气自动化",0,"2025安徽历史类专科普通类：002组381分/94650位、001组479分/43543位（掌上高考核验）。职业本科，专业组差异大，智能农机/机电方向多在002组（冲）。"],
+  ["黑龙江职业学院","黑龙江",350,109342,"保","公办","机电一体化、工业机器人、数控、汽车检测、物联网",0,"2025安徽历史类专科普通类350分/109342位（掌上高考核验）。哈尔滨·公办，稳妥补充。"],
+  ["黑龙江林业职业技术学院","黑龙江",293,127377,"保","公办","无人机、工程测量、林业技术、机电类",0,"2025安徽历史类专科普通类293分/127377位（掌上高考核验）。牡丹江·公办保底，可走无人机巡检/测绘/林业应用。"],
+  ["黑龙江旅游职业技术学院","黑龙江",291,127673,"保","公办","新能源汽车、智能网联汽车、机电一体化、计算机网络",0,"2025安徽历史类专科普通类291分/127673位（掌上高考核验）。公办、分数安全，但学校偏旅游商贸，技术专业需单独核对。"],
+  ["牡丹江大学","黑龙江",293,127354,"保","公办","机电、汽车、计算机、建筑工程",0,"2025安徽历史类专科普通类293分/127354位（掌上高考核验）。公办综合类保底。"],
+  ["黑龙江交通职业技术学院","黑龙江",439,64138,"大冲","公办","铁道交通、轨道交通、车辆检修",0,"2025安徽历史类专科普通类439分/64138位（掌上高考核验）。位次明显高于考生，大冲，不建议核心；轨道类看身体条件。"],
+];
+
+const COLOR = { "大冲":"var(--g-dachong)", "冲":"var(--g-chong)", "小冲":"var(--g-xiao)", "稳":"var(--g-wen)", "保":"var(--g-bao)" };
+const GRADE_ORDER = { "大冲":0, "冲":1, "小冲":2, "稳":3, "保":4 };
+
+const DATA = RAW.map(r => ({
+  name:r[0], region:r[1], score:r[2], rank:r[3], grade:r[4], prop:r[5], majors:r[6],
+  est: r[7]||0, note: r[8]||'', gap: r[3] - BASE, gradeOrder: GRADE_ORDER[r[4]]
+}));
+
+// ===== 位次图（SVG 横向条形，按位次排序） =====
+function drawChart() {
+  const svg = document.getElementById('chart');
+  const rows = [...DATA].sort((a,b)=>a.rank-b.rank);
+  const W = 1180, rowH = 26, padTop = 38, padBottom = 10, padL = 230, padR = 72;
+  const H = padTop + rows.length*rowH + padBottom;
+  const maxRank = Math.max(...rows.map(r=>r.rank)) * 1.02;
+  const minRank = 0;
+  const plotW = W - padL - padR;
+  const x = v => padL + (v-minRank)/(maxRank-minRank)*plotW;
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+
+  let s = '';
+  // 网格 + 轴标签
+  const ticks = [0,30000,60000,90000,120000,150000];
+  ticks.forEach(t=>{
+    if(t>maxRank) return;
+    s += `<line x1="${x(t)}" y1="${padTop-6}" x2="${x(t)}" y2="${H-padBottom}" stroke="var(--line)" stroke-width="1"/>`;
+    s += `<text x="${x(t)}" y="${padTop-12}" text-anchor="middle" fill="var(--ink-faint)" font-size="13">${t/1000}k</text>`;
+  });
+  // 基准线
+  const bx = x(BASE);
+  s += `<line x1="${bx}" y1="${padTop-18}" x2="${bx}" y2="${H-padBottom}" stroke="var(--accent)" stroke-width="2" stroke-dasharray="5 4"/>`;
+  s += `<text x="${bx}" y="${padTop-22}" text-anchor="middle" fill="var(--accent)" font-weight="700" font-size="14">考生 101351</text>`;
+
+  rows.forEach((r,i)=>{
+    const y = padTop + i*rowH;
+    const bw = x(r.rank)-padL;
+    const nm = r.name + (r.est?' *':'');
+    s += `<text x="${padL-10}" y="${y+rowH/2+4}" text-anchor="end" fill="var(--ink-soft)" font-size="13">${nm}</text>`;
+    const estAttr = r.est ? `fill-opacity="0.32" stroke="${COLOR[r.grade]}" stroke-width="1.5" stroke-dasharray="4 3"` : '';
+    const estMark = r.est ? ' ·位次待核' : '';
+    s += `<rect class="bar" x="${padL}" y="${y+4}" width="${Math.max(bw,2)}" height="${rowH-8}" rx="4" fill="${COLOR[r.grade]}" ${estAttr}><title>${r.name}｜2025 ${r.score}分 / 位次${r.rank}${estMark}｜${r.grade}</title></rect>`;
+    const lblX = x(r.rank)+6;
+    s += `<text x="${lblX}" y="${y+rowH/2+4}" fill="var(--ink-faint)" font-size="12.5">${r.est?'~':''}${(r.rank/1000).toFixed(0)}k</text>`;
+  });
+  svg.innerHTML = s;
+}
+
+// ===== 表格 =====
+let curRegion='all', curGrade='all', sortKey='rank', sortDir=1;
+const tbody = document.getElementById('tbody');
+const countEl = document.getElementById('count');
+
+function render(){
+  let rows = DATA.filter(r=>{
+    if(curRegion!=='all' && r.region!==curRegion) return false;
+    if(curGrade==='公办' && r.prop!=='公办') return false;
+    else if(curGrade!=='all' && curGrade!=='公办'){
+      if(curGrade==='冲' && !(r.grade==='大冲'||r.grade==='冲'||r.grade==='小冲')) return false;
+      if(curGrade==='稳' && r.grade!=='稳') return false;
+      if(curGrade==='保' && r.grade!=='保') return false;
+    }
+    return true;
+  });
+  rows.sort((a,b)=>{
+    let va=a[sortKey], vb=b[sortKey];
+    if(typeof va==='string'){ return va.localeCompare(vb,'zh')*sortDir; }
+    return (va-vb)*sortDir;
+  });
+  tbody.innerHTML = rows.map(r=>{
+    const gapCls = r.gap>=0?'gap-pos':'gap-neg';
+    const t = r.est ? '~' : '';
+    const gapTxt = t + (r.gap>=0?'+':'') + r.gap.toLocaleString();
+    const prop = r.prop==='民办'?'<span class="tag-prop minban">民办</span>':'<span class="tag-prop">公办</span>';
+    const estBadge = r.est ? '<span class="tag-est" title="位次未能独立核实，详见图表下方说明">待核</span>' : '';
+    const noteIcon = r.note ? `<span class="info-i" title="${r.note}">i</span>` : '';
+    return `<tr>
+      <td><span class="school-name">${r.name}</span>${prop}${estBadge}${noteIcon}</td>
+      <td>${r.region}</td>
+      <td class="num">${r.score}</td>
+      <td class="num">${t}${r.rank.toLocaleString()}</td>
+      <td class="num ${gapCls}">${gapTxt}</td>
+      <td><span class="pill" style="background:${COLOR[r.grade]}">${r.grade}</span></td>
+      <td class="majors">${r.majors}</td>
+    </tr>`;
+  }).join('');
+  countEl.textContent = `共 ${rows.length} 所`;
+}
+
+document.querySelectorAll('#region-filter .chip').forEach(c=>{
+  c.addEventListener('click',()=>{
+    document.querySelectorAll('#region-filter .chip').forEach(x=>x.setAttribute('aria-pressed','false'));
+    c.setAttribute('aria-pressed','true'); curRegion=c.dataset.region; render();
+  });
+});
+document.querySelectorAll('#grade-filter .chip').forEach(c=>{
+  c.addEventListener('click',()=>{
+    document.querySelectorAll('#grade-filter .chip').forEach(x=>x.setAttribute('aria-pressed','false'));
+    c.setAttribute('aria-pressed','true'); curGrade=c.dataset.grade; render();
+  });
+});
+document.querySelectorAll('#tbl thead th[data-sort]').forEach(th=>{
+  th.addEventListener('click',()=>{
+    const k=th.dataset.sort;
+    if(sortKey===k) sortDir*=-1; else { sortKey=k; sortDir=1; }
+    render();
+  });
+});
+
+// ===== 方法区：梯度速查 + 45 格梯度梯 =====
+const GQ = [
+  ["大冲","位次 <88000","var(--g-dachong)"],
+  ["冲","88k – 96k","var(--g-chong)"],
+  ["小冲","96k – 100k","var(--g-xiao)"],
+  ["稳","100k – 105k","var(--g-wen)"],
+  ["保","位次 >105000","var(--g-bao)"],
+];
+document.getElementById('gradeQuick').innerHTML = GQ.map(g=>
+  `<div class="gq" style="background:${g[2]}"><b>${g[0]}</b><span>${g[1]}</span></div>`).join('');
+
+const LAD = [["冲",9,"var(--g-chong)"],["低冲",11,"var(--g-xiao)"],["稳",14,"var(--g-wen)"],["保",11,"var(--g-bao)"]];
+document.getElementById('ladder').innerHTML = LAD.map(l=>
+  `<div class="seg" style="flex:${l[1]};background:${l[2]}">${l[0]}<br>${l[1]} 个</div>`).join('');
+
+// ===== 志愿结构条 =====
+const STRUCT = [
+  ["安徽",24,"var(--g-bao)","主盘 · 公办多 · 成本低"],
+  ["广东",6,"var(--g-wen)","就业好 · 公办/强匹配"],
+  ["江苏",6,"var(--g-xiao)","离家近 · 公办冲/民办保"],
+  ["浙江",4,"var(--g-chong)","少量 · 不重仓"],
+  ["上海",3,"var(--g-dachong)","少量冲 · 非主盘"],
+];
+const maxN = Math.max(...STRUCT.map(s=>s[1]));
+document.getElementById('struct').innerHTML = STRUCT.map(s=>`
+  <div class="struct-row">
+    <span class="rname">${s[0]}</span>
+    <div class="struct-bar"><div class="struct-fill" style="--w:${s[1]/maxN*100}%;background:${s[2]}">${s[1]} 个</div></div>
+    <span class="rnum">${s[3]}</span>
+  </div>`).join('');
+
+// ===== 专业路线 =====
+const ROUTES = [
+  ["无人机 / 低空经济",["无人机应用技术","无人机测绘技术","测绘地理信息技术","摄影测量与遥感技术","应急救援技术"],"偏应用实操、文科友好、数学压力小；看学校实训与考证资源"],
+  ["机器人 / 智能制造",["机电一体化技术","智能控制技术","工业机器人技术","电气自动化技术","智能制造装备技术"],"口径最宽最稳；专科岗位是操作调试运维，非研发"],
+  ["新能源汽车 / 智能网联",["新能源汽车技术","智能网联汽车技术","汽车检测与维修技术","机电一体化技术","物联网应用技术"],"安徽产业最匹配、岗位现实；要动手不怕脏累"],
+  ["物联网 / 物流（文科兜底）",["物联网应用技术","电子信息工程技术","现代物流管理","供应链运营","跨境电子商务"],"不想学强工科又希望就业不虚的备选"],
+];
+document.getElementById('routes').innerHTML = ROUTES.map(r=>`
+  <div class="route">
+    <h3>${r[0]}</h3>
+    <ol>${r[1].map(m=>`<li>${m}</li>`).join('')}</ol>
+    <div class="fit">适合：${r[2]}</div>
+  </div>`).join('');
+
+// ===== 避坑 =====
+const PIT = [
+  ["位","<b>按位次不按分数</b>：2025 分数接近 394 的学校，位次可能高出上万名。"],
+  ["选","<b>历史类报工科必查选科</b>：很多机电/电气/机器人专业只招物理类。"],
+  ["民","<b>民办谨慎</b>：核学费、住宿、实训、校企合作真实性与专升本官方数据。"],
+  ["体","<b>航空/轨道/航海看身体条件</b>：身高、视力、色觉、是否倒班出差户外。"],
+  ["骗","<b>警惕营销与诈骗</b>：包就业/包录取/内部指标一律不信，只认官网。"],
+  ["保","<b>务必留足公办保底</b>：全冲外省好校滑档风险高，留省内/低线公办兜底。"],
+  ["调","<b>多数勾选专业服从调剂</b>：但先确认每组内不讨厌的专业范围。"],
+];
+document.getElementById('pitfalls').innerHTML = PIT.map(p=>`
+  <div class="pit"><div class="pi">${p[0]}</div><p>${p[1]}</p></div>`).join('');
+
+// ===== 点按查看详情（移动端 title 悬停无效的兜底）=====
+const sheet = document.getElementById('sheet');
+const sheetText = document.getElementById('sheetText');
+const sheetTitle = document.getElementById('sheetTitle');
+function showSheet(title, text){
+  sheetTitle.textContent = title || '说明';
+  sheetText.textContent = text || '';
+  sheet.hidden = false;
+}
+function hideSheet(){ sheet.hidden = true; }
+document.getElementById('tbody').addEventListener('click', e=>{
+  const el = e.target.closest('.info-i, .tag-est');
+  if(!el) return;
+  const row = el.closest('tr');
+  const name = row ? row.querySelector('.school-name').textContent : '';
+  showSheet(name, el.getAttribute('title'));
+});
+document.getElementById('sheetX').addEventListener('click', hideSheet);
+sheet.addEventListener('click', e=>{ if(e.target===sheet) hideSheet(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') hideSheet(); });
+
+// ===== 初始化 + 滚动揭示 =====
+drawChart();
+render();
+
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+    }
+  });
+},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
